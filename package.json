@@ -1,0 +1,14 @@
+{
+  "name": "cuisigo-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cuisigo pre-launch landing page with launch registration and newsletter opt-in.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

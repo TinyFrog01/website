@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en"
+  data-en-title="Cuisigo · Cook what you want with what you have"
+  data-fr-title="Cuisigo · Cuisine ce que tu veux avec ce que tu as">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cuisigo · Cook what you want with what you have</title>
+  <meta name="description" content="Cuisigo turns what’s already in your fridge into recipes you can make tonight. Point. Scan. Cook. Launching January 2027.">
+  <meta name="theme-color" content="#f2f2f0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cuisigo">
+  <meta property="og:title" content="Cuisigo · Point. Scan. Cook.">
+  <meta property="og:description" content="Snap your fridge, get recipes you can make tonight. Launching January 2027. · Photographie ton frigo et découvre quoi cuisiner ce soir. Lancement en janvier 2027.">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/lang.js"></script>
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <!--
+    Every piece of copy exists twice: lang="en" and lang="fr".
+    The stylesheet hides whichever language is not active.
+  -->
+  <header class="site-header wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
+      <span class="brand-name">Cuisigo</span>
+    </a>
+    <div class="lang-switch" role="group" aria-label="Language / Langue">
+      <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+      <button type="button" data-set-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero + registration ------------------------------------------------ -->
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          <span lang="en">Launching January 2027</span>
+          <span lang="fr">Lancement en janvier 2027</span>
+        </p>
+        <h1 class="display" id="hero-title">
+          <span lang="en">Cook what you want <em>with what you <span class="nw">have<span class="period">.</span></span></em></span>
+          <span lang="fr">Cuisine ce que tu veux <em>avec ce que tu <span class="nw">as<span class="period">.</span></span></em></span>
+        </h1>
+        <p class="lede">
+          <span lang="en">Point your phone at your fridge. Cuisigo recognizes what’s inside and turns it into recipes you can make tonight.</span>
+          <span lang="fr">Pointe ton téléphone vers ton frigo. Cuisigo reconnaît ce qu’il contient et le transforme en recettes à faire ce soir.</span>
+        </p>
+
+        <div class="signup" id="signup">
+          <form class="signup-form" id="register" action="/api/subscribe" method="post" novalidate>
+            <div class="field">
+              <label class="sr-only" for="email"><span lang="en">Email address</span><span lang="fr">Adresse courriel</span></label>
+              <input id="email" name="email" type="email" inputmode="email" autocomplete="email"
+                autocapitalize="off" spellcheck="false" maxlength="254" required
+                placeholder="you@email.com" data-en-placeholder="you@email.com" data-fr-placeholder="toi@courriel.com"
+                aria-describedby="form-msg">
+              <button class="btn" type="submit">
+                <span lang="en">Register</span><span lang="fr">Je m’inscris</span>
+                <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+              </button>
+            </div>
+            <p class="form-msg" id="form-msg" aria-live="polite"></p>
+
+            <label class="consent">
+              <input type="checkbox" name="newsletter" value="yes">
+              <span class="consent-text" lang="en">Send me the Cuisigo newsletter too. I can unsubscribe at any time.</span>
+              <span class="consent-text" lang="fr">Je veux aussi recevoir l’infolettre de Cuisigo. Je peux me désabonner en tout temps.</span>
+            </label>
+            <p class="form-note">
+              <span lang="en">We’ll email you on launch day. No spam.</span>
+              <span lang="fr">On t’écrira le jour du lancement. Aucun pourriel.</span>
+            </p>
+
+            <input type="hidden" name="language" value="en">
+            <input type="hidden" name="consent_text" value="Send me the Cuisigo newsletter too. I can unsubscribe at any time.">
+            <div class="hp" aria-hidden="true">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+          </form>
+
+          <div class="signup-done" id="signup-done" tabindex="-1" hidden>
+            <svg class="mark mark-lock" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path class="mark-corners" d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle class="mark-dot" cx="9.5" cy="9.5" r="3"/></svg>
+            <p class="done-title">
+              <span lang="en">You’re on the <span class="nw">list<span class="period">.</span></span></span>
+              <span lang="fr">Tu es sur la <span class="nw">liste<span class="period">.</span></span></span>
+            </p>
+            <p class="done-text">
+              <span lang="en">We’ll email <strong data-email></strong> on launch day.</span>
+              <span lang="fr">On t’écrira à <strong data-email></strong> le jour du lancement.</span>
+            </p>
+            <p class="done-text" data-newsletter-note hidden>
+              <span lang="en">You’ll get our newsletter too.</span>
+              <span lang="fr">Tu recevras aussi notre infolettre.</span>
+            </p>
+            <button class="link-btn" type="button" data-reset>
+              <span lang="en">Use a different email</span><span lang="fr">Utiliser une autre adresse</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="duo">
+          <img class="shot duo-back"
+            src="/screens/camera-scan-400.webp"
+            srcset="/screens/camera-scan-400.webp 400w, /screens/camera-scan-800.webp 800w"
+            sizes="(min-width: 960px) 240px, 46vw" width="400" height="866"
+            alt="Cuisigo’s camera scanning the inside of a fridge"
+            data-en-alt="Cuisigo’s camera scanning the inside of a fridge"
+            data-fr-alt="La caméra de Cuisigo qui scanne l’intérieur d’un frigo">
+          <div class="duo-front frame">
+            <img class="shot"
+              src="/screens/recipe-feed-400.webp"
+              srcset="/screens/recipe-feed-400.webp 400w, /screens/recipe-feed-800.webp 800w"
+              sizes="(min-width: 960px) 270px, 52vw" width="400" height="866" fetchpriority="high"
+              alt="A Cuisigo recipe card for banana chocolate chip muffins: ingredients you have are green, the missing one is red"
+              data-en-alt="A Cuisigo recipe card for banana chocolate chip muffins: ingredients you have are green, the missing one is red"
+              data-fr-alt="Une fiche recette Cuisigo pour des muffins bananes et pépites de chocolat&nbsp;: les ingrédients que tu as sont en vert, celui qui manque est en rouge">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -------------------------------------------------------- -->
+    <section class="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <p class="eyebrow"><span lang="en">How it works</span><span lang="fr">Comment ça marche</span></p>
+        <h2 class="display-2" id="how-title">
+          <span lang="en"><span class="nw">Point<span class="period">.</span></span> <span class="nw">Scan<span class="period">.</span></span> <span class="nw">Cook<span class="period">.</span></span></span>
+          <span lang="fr"><span class="nw">Pointe<span class="period">.</span></span> <span class="nw">Scanne<span class="period">.</span></span> <span class="nw">Cuisine<span class="period">.</span></span></span>
+        </h2>
+      </div>
+
+      <div class="steps-scroller" role="region" aria-labelledby="how-title" tabindex="0">
+        <ol class="steps">
+          <li class="step reveal">
+            <div class="frame">
+              <img class="shot" loading="lazy" decoding="async"
+                src="/screens/scan-results-400.webp"
+                srcset="/screens/scan-results-400.webp 400w, /screens/scan-results-800.webp 800w"
+                sizes="(min-width: 860px) 280px, 64vw" width="400" height="866"
+                alt="Cuisigo scan results: 99 items detected, 22 flagged for review"
+                data-en-alt="Cuisigo scan results: 99 items detected, 22 flagged for review"
+                data-fr-alt="Résultats de scan Cuisigo&nbsp;: 99 aliments détectés, 22 à vérifier">
+            </div>
+            <div class="step-copy">
+              <p class="step-label"><span class="step-num">01</span><span>Scan</span></p>
+              <h3><span lang="en">Snap your fridge.</span><span lang="fr">Photographie ton frigo.</span></h3>
+              <p>
+                <span lang="en">Take a photo of your fridge, freezer or pantry. Cuisigo recognizes your food and adds it to your inventory. If it isn’t sure about an item, it flags it for you to check instead of guessing.</span>
+                <span lang="fr">Prends en photo ton frigo, ton congélateur ou ton garde-manger. Cuisigo reconnaît tes aliments et les ajoute à ton inventaire. S’il a un doute sur un aliment, il te le signale au lieu de deviner.</span>
+              </p>
+            </div>
+          </li>
+          <li class="step reveal">
+            <div class="frame">
+              <img class="shot" loading="lazy" decoding="async"
+                src="/screens/inventory-400.webp"
+                srcset="/screens/inventory-400.webp 400w, /screens/inventory-800.webp 800w"
+                sizes="(min-width: 860px) 280px, 64vw" width="400" height="866"
+                alt="Cuisigo inventory sorted A to Z, with each item’s quantity and location"
+                data-en-alt="Cuisigo inventory sorted A to Z, with each item’s quantity and location"
+                data-fr-alt="Inventaire Cuisigo classé de A à Z, avec la quantité et l’emplacement de chaque aliment">
+            </div>
+            <div class="step-copy">
+              <p class="step-label"><span class="step-num">02</span><span lang="en">Inventory</span><span lang="fr">Inventaire</span></p>
+              <h3><span lang="en">See everything you have.</span><span lang="fr">Vois tout ce que tu as.</span></h3>
+              <p>
+                <span lang="en">Every item, sorted A to Z, with its quantity and where it’s stored. Staples like salt and oil stay on hand, so they never count as missing.</span>
+                <span lang="fr">Chaque aliment, classé de A à Z, avec sa quantité et son emplacement. Les essentiels comme le sel et l’huile restent toujours disponibles&nbsp;: ils ne comptent jamais comme manquants.</span>
+              </p>
+            </div>
+          </li>
+          <li class="step reveal">
+            <div class="frame">
+              <img class="shot" loading="lazy" decoding="async"
+                src="/screens/recipe-detail-400.webp"
+                srcset="/screens/recipe-detail-400.webp 400w, /screens/recipe-detail-800.webp 800w"
+                sizes="(min-width: 860px) 280px, 64vw" width="400" height="866"
+                alt="A Cuisigo recipe showing 4 of 8 ingredients on hand and a Start cooking button"
+                data-en-alt="A Cuisigo recipe showing 4 of 8 ingredients on hand and a Start cooking button"
+                data-fr-alt="Une recette Cuisigo qui indique 4 ingrédients sur 8 sous la main et un bouton pour commencer à cuisiner">
+            </div>
+            <div class="step-copy">
+              <p class="step-label"><span class="step-num">03</span><span lang="en">Cook</span><span lang="fr">Cuisine</span></p>
+              <h3><span lang="en">Make it tonight.</span><span lang="fr">À table ce soir.</span></h3>
+              <p>
+                <span lang="en">Swipe through recipes built around what you have. See at a glance what’s there and what’s missing, then cook step by step with built-in timers.</span>
+                <span lang="fr">Fais défiler des recettes pensées pour ce que tu as. Vois d’un coup d’œil ce qui est là et ce qui manque, puis cuisine étape par étape, minuteries incluses.</span>
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Promise ------------------------------------------------------------- -->
+    <section class="promise wrap" aria-labelledby="promise-title">
+      <p class="eyebrow"><span lang="en">Our promise</span><span lang="fr">Notre promesse</span></p>
+      <h2 class="display-xl" id="promise-title">
+        <span lang="en">Under <em>5&nbsp;<span class="nw">minutes<span class="period">.</span></span></em></span>
+        <span lang="fr">Moins de <em>5&nbsp;<span class="nw">minutes<span class="period">.</span></span></em></span>
+      </h2>
+      <p class="lede">
+        <span lang="en">From opening your fridge to knowing what you’re cooking. If it takes longer, we haven’t done our job.</span>
+        <span lang="fr">Entre le moment où tu ouvres ton frigo et celui où tu sais quoi cuisiner. Si c’est plus long, on n’a pas fait notre travail.</span>
+      </p>
+      <ul class="pillars">
+        <li class="reveal">
+          <h3><span lang="en">Made for you</span><span lang="fr">Fait pour toi</span></h3>
+          <p>
+            <span lang="en">Cuisigo remembers your tastes, allergies and diet.</span>
+            <span lang="fr">Cuisigo retient tes goûts, tes allergies et ton régime alimentaire.</span>
+          </p>
+        </li>
+        <li class="reveal">
+          <h3><span lang="en">Fits your kitchen</span><span lang="fr">Adapté à ta cuisine</span></h3>
+          <p>
+            <span lang="en">Recipes match the appliances you own, with a clear difficulty level.</span>
+            <span lang="fr">Les recettes tiennent compte de tes appareils et indiquent leur niveau de difficulté.</span>
+          </p>
+        </li>
+        <li class="reveal">
+          <h3><span lang="en">No new habits</span><span lang="fr">Rien à changer</span></h3>
+          <p>
+            <span lang="en">Shop the way you already do. Cuisigo starts from what’s in your fridge.</span>
+            <span lang="fr">Fais ton épicerie comme d’habitude. Cuisigo part de ce qu’il y a dans ton frigo.</span>
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Closing call to action ---------------------------------------------- -->
+    <section class="cta wrap" aria-labelledby="cta-title">
+      <div class="cta-inner frame reveal">
+        <h2 class="display-2" id="cta-title">
+          <span lang="en">Your fridge holds more dinners than you <span class="nw">think<span class="period">.</span></span></span>
+          <span lang="fr">Ton frigo cache plus de soupers que tu le <span class="nw">penses<span class="period">.</span></span></span>
+        </h2>
+        <p class="lede">
+          <span lang="en">Cuisigo launches in January 2027. Register now to be among the first to try it.</span>
+          <span lang="fr">Cuisigo arrive en janvier 2027. Inscris-toi pour être parmi les premiers à l’essayer.</span>
+        </p>
+        <a class="btn" href="#signup" data-to-signup>
+          <span lang="en">Register</span><span lang="fr">Je m’inscris</span>
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <a class="brand brand-sm" href="/">
+      <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
+      <span class="brand-name">Cuisigo</span>
+    </a>
+    <p>
+      <span lang="en">Your email is only used to contact you about Cuisigo.</span>
+      <span lang="fr">Ton courriel sert uniquement à te contacter au sujet de Cuisigo.</span>
+    </p>
+    <p>© <span data-year>2026</span> Cuisigo</p>
+  </footer>
+</body>
+</html>
