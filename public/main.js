@@ -6,11 +6,13 @@
   const email = document.getElementById('email');
   const msg = document.getElementById('form-msg');
   const submit = form.querySelector('button[type="submit"]');
+  const newsletterBox = form.elements.newsletter;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const MESSAGES = {
     en: {
       invalid_email: 'Please enter a valid email address.',
+      newsletter_required: 'Please tick the newsletter box to register.',
       email_domain: 'This email address can’t receive mail. Check it for typos.',
       disposable: 'Please use your regular email address, not a temporary one.',
       busy: 'Lots of sign-ups right now. Please try again a little later.',
@@ -21,6 +23,7 @@
     },
     fr: {
       invalid_email: 'Entre une adresse courriel valide.',
+      newsletter_required: 'Coche la case de l’infolettre pour t’inscrire.',
       email_domain: 'Cette adresse ne peut pas recevoir de courriels. Vérifie qu’il n’y a pas de faute de frappe.',
       disposable: 'Utilise ton adresse courriel habituelle, pas une adresse temporaire.',
       busy: 'Il y a beaucoup d’inscriptions en ce moment. Réessaie un peu plus tard.',
@@ -30,8 +33,14 @@
       invalid_token: 'Ce lien de confirmation a expiré ou a déjà été utilisé. Entre ton courriel pour en recevoir un nouveau.',
     },
   };
-  // Problems with what the person typed: the field gets marked as invalid.
-  const FIELD_ERRORS = ['invalid_email', 'email_domain', 'disposable'];
+  // Problems with a field: that field gets marked as invalid and focused.
+  const FIELD_FOR = {
+    invalid_email: email,
+    email_domain: email,
+    disposable: email,
+    newsletter_required: newsletterBox,
+  };
+  const fieldFor = (key) => (Object.prototype.hasOwnProperty.call(FIELD_FOR, key) ? FIELD_FOR[key] : null);
   // Progress rather than a problem: shown in grey, not red.
   const STATUS = ['confirming'];
 
@@ -71,8 +80,10 @@
     messageKey = key;
     msg.textContent = key ? MESSAGES[lang()][key] : '';
     msg.classList.toggle('is-status', STATUS.includes(key));
-    if (FIELD_ERRORS.includes(key)) email.setAttribute('aria-invalid', 'true');
-    else email.removeAttribute('aria-invalid');
+    for (const field of [email, newsletterBox]) {
+      if (field === fieldFor(key)) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+    }
   }
 
   function setBusy(busy) {
@@ -112,14 +123,20 @@
       return;
     }
 
-    const newsletter = form.elements.newsletter.checked;
+    // Registering means getting the newsletter, so the box is required.
+    if (!newsletterBox.checked) {
+      showMessage('newsletter_required');
+      newsletterBox.focus();
+      return;
+    }
+
     const consentLabel = form.querySelector(`.consent-text[lang="${lang()}"]`);
     const payload = {
       email: address,
-      newsletter,
+      newsletter: true,
       language: lang(),
       // Stored with the sign-up as a record of exactly what the person agreed to.
-      consent_text: newsletter && consentLabel ? consentLabel.textContent.trim() : '',
+      consent_text: consentLabel ? consentLabel.textContent.trim() : '',
       website: form.elements.website.value,
     };
 
@@ -134,7 +151,8 @@
         showPanel(done);
       } else {
         showMessage(hasMessage(data.error) ? data.error : 'error');
-        if (FIELD_ERRORS.includes(data.error)) email.focus();
+        const field = fieldFor(data.error);
+        if (field) field.focus();
       }
     } catch {
       showMessage('network');
@@ -145,6 +163,10 @@
 
   email.addEventListener('input', () => {
     if (messageKey) showMessage(null);
+  });
+
+  newsletterBox.addEventListener('change', () => {
+    if (newsletterBox.checked && messageKey === 'newsletter_required') showMessage(null);
   });
 
   document.querySelectorAll('[data-reset]').forEach((button) => {

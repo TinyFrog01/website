@@ -8,9 +8,9 @@
  * keeps addresses that are confirmed to be real.
  *
  *   1. Someone submits the form on cuisigo.ca.
- *   2. The address is checked: valid format, a domain that can receive email,
- *      and not a throwaway inbox. It goes in the "Pending" tab and gets an
- *      email with a confirmation link.
+ *   2. The newsletter box must be ticked, and the address is checked: valid
+ *      format, a domain that can receive email, and not a throwaway inbox.
+ *      It goes in the "Pending" tab and gets an email with a confirmation link.
  *   3. When they click the link, the address moves to the "Sign-ups" tab.
  *      Unconfirmed addresses are deleted after a week.
  *
@@ -86,6 +86,8 @@ const PAGE_TEXT = {
     ['Vérifie tes courriels.', 'On t’a envoyé un lien de confirmation. Clique dessus pour terminer ton inscription.']],
   invalid: [['Check your email address.', 'That address can’t receive our emails. Please go back and try again.'],
     ['Vérifie ton adresse courriel.', 'Cette adresse ne peut pas recevoir nos courriels. Reviens en arrière et réessaie.']],
+  newsletter: [['Tick the newsletter box.', 'Registering means getting the Cuisigo newsletter. Please go back and tick the box.'],
+    ['Coche la case de l’infolettre.', 'Pour t’inscrire, il faut accepter de recevoir l’infolettre de Cuisigo. Reviens en arrière et coche la case.']],
   busy: [['Lots of sign-ups right now.', 'Please try again a little later.'],
     ['Beaucoup d’inscriptions en ce moment.', 'Réessaie un peu plus tard.']],
   error: [['Something went wrong.', 'Please go back and try again.'],
@@ -150,11 +152,15 @@ function register_(body) {
 
   const email = String(body.email == null ? '' : body.email).trim().toLowerCase();
   if (email.length > 254 || !EMAIL_RE.test(email)) return { ok: false, error: 'invalid_email' };
+
+  // Registering means getting the newsletter: the box on the form is required.
+  const newsletter = [true, 'true', 'yes', 'on'].indexOf(body.newsletter) !== -1;
+  if (!newsletter) return { ok: false, error: 'newsletter_required' };
+
   const domain = email.slice(email.indexOf('@') + 1);
   if (isThrowaway_(domain)) return { ok: false, error: 'disposable' };
   if (!domainAcceptsMail_(domain)) return { ok: false, error: 'email_domain' };
 
-  const newsletter = [true, 'true', 'yes', 'on'].indexOf(body.newsletter) !== -1;
   const language = body.language === 'fr' ? 'fr' : 'en';
   const consent = newsletter ? clean_(body.consent_text) : '';
 
@@ -282,6 +288,7 @@ function reply_(asJson, result) {
   let kind = 'error';
   if (result.ok) kind = 'ok';
   else if (FIELD_ERRORS.indexOf(result.error) !== -1) kind = 'invalid';
+  else if (result.error === 'newsletter_required') kind = 'newsletter';
   else if (result.error === 'busy') kind = 'busy';
   const [en, fr] = PAGE_TEXT[kind];
   const html =

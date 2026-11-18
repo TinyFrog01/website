@@ -519,6 +519,11 @@ html[lang="fr"] .display {
   transform: scale(1);
 }
 
+/* Required box left unticked: red brackets. */
+.consent input[aria-invalid="true"] {
+  --c: var(--error);
+}
+
 .form-note {
   margin-top: 0.9rem;
   color: var(--ink-2);

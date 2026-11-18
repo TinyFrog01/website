@@ -78,9 +78,11 @@
             <p class="form-msg" id="form-msg" aria-live="polite"></p>
 
             <label class="consent">
-              <input type="checkbox" name="newsletter" value="yes">
-              <span class="consent-text" lang="en">Send me the Cuisigo newsletter too. I can unsubscribe at any time.</span>
-              <span class="consent-text" lang="fr">Je veux aussi recevoir l’infolettre de Cuisigo. Je peux me désabonner en tout temps.</span>
+              <!-- Required: registering means getting the newsletter. It must never be pre-ticked:
+                   Canada's anti-spam law (CASL) needs people to tick it themselves. -->
+              <input type="checkbox" name="newsletter" value="yes" required aria-describedby="form-msg">
+              <span class="consent-text" lang="en">Send me the Cuisigo newsletter. I can unsubscribe at any time.</span>
+              <span class="consent-text" lang="fr">Je veux recevoir l’infolettre de Cuisigo. Je peux me désabonner en tout temps.</span>
             </label>
             <p class="form-note">
               <span lang="en">We’ll email you on launch day. No spam.</span>
@@ -88,7 +90,7 @@
             </p>
 
             <input type="hidden" name="language" value="en">
-            <input type="hidden" name="consent_text" value="Send me the Cuisigo newsletter too. I can unsubscribe at any time.">
+            <input type="hidden" name="consent_text" value="Send me the Cuisigo newsletter. I can unsubscribe at any time.">
             <div class="hp" aria-hidden="true">
               <label for="website">Website</label>
               <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">

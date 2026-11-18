@@ -16,7 +16,7 @@ The preview's form sends to the real sign-up sheet, so delete any test rows afte
 
 ## How sign-ups work
 
-1. A visitor enters their email. The page sends it to a small Google Apps Script ([google-apps-script/Code.gs](google-apps-script/Code.gs)) that runs in your Google account.
+1. A visitor enters their email and ticks the newsletter box. The box is required: registering means getting the newsletter. The page sends the sign-up to a small Google Apps Script ([google-apps-script/Code.gs](google-apps-script/Code.gs)) that runs in your Google account.
 2. The script turns away addresses that can't be real: a wrong format, a domain that can't receive email (checked live), or a throwaway inbox such as Yopmail or Mailinator.
 3. It saves the address in the sheet's **Pending** tab and emails a confirmation link, in English or French to match the page.
 4. When the person clicks the link, the address moves to the **Sign-ups** tab. Only confirmed addresses ever go there. Unconfirmed ones are deleted after 7 days.
@@ -33,13 +33,13 @@ The preview's form sends to the real sign-up sheet, so delete any test rows afte
 | Column | Meaning |
 | --- | --- |
 | Email | The address, lower-cased |
-| Newsletter | `yes` only if the person ticked the newsletter box and confirmed |
+| Newsletter | `yes` once they confirm. The box is required, so new sign-ups always get `yes` |
 | Language | `en` or `fr`: the language the page was shown in |
 | Confirmed at | When they clicked the confirmation link |
 | Newsletter consent at | When their newsletter opt-in was confirmed |
 | Newsletter consent text | The exact checkbox wording they agreed to: your proof of consent |
 
-Registering twice doesn't create a duplicate. If someone already on the list ticks the newsletter box later, they get a new confirmation link, and their row is updated once they click it. Send launch news to everyone on the tab, but send newsletters only to rows with Newsletter = `yes`.
+Registering twice doesn't create a duplicate. Send newsletters only to rows with Newsletter = `yes`: anyone who registered before the box was required may have `no`. Every email you send to the list must include a way to unsubscribe (CASL).
 
 Don't rename the tabs or reorder their columns. You can add your own columns to the right.
 
