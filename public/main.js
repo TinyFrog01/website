@@ -22,8 +22,9 @@
       busy: 'Lots of sign-ups right now. Please try again a little later.',
       network: 'We couldn’t reach the server. Check your connection and try again.',
       error: 'Something went wrong. Please try again.',
-      confirming: 'Confirming your email…',
+      sending: 'Sending your confirmation link…',
       invalid_token: 'This confirmation link has expired or was already used. Enter your email to get a new one.',
+      confirm_failed: 'We couldn’t confirm your email. Please open the link in the email again.',
     },
     fr: {
       invalid_email: 'Entre une adresse courriel valide.',
@@ -33,8 +34,9 @@
       busy: 'Il y a beaucoup d’inscriptions en ce moment. Réessaie un peu plus tard.',
       network: 'Impossible de joindre le serveur. Vérifie ta connexion et réessaie.',
       error: 'Oups, une erreur est survenue. Réessaie.',
-      confirming: 'Confirmation de ton courriel…',
+      sending: 'Envoi de ton lien de confirmation…',
       invalid_token: 'Ce lien de confirmation a expiré ou a déjà été utilisé. Entre ton courriel pour en recevoir un nouveau.',
+      confirm_failed: 'Impossible de confirmer ton courriel. Ouvre de nouveau le lien dans le courriel.',
     },
   };
   // Problems with a field: that field gets marked as invalid and focused.
@@ -46,9 +48,24 @@
   };
   const fieldFor = (key) => (Object.prototype.hasOwnProperty.call(FIELD_FOR, key) ? FIELD_FOR[key] : null);
   // Progress rather than a problem: shown in grey, not red.
-  const STATUS = ['confirming'];
+  const STATUS = ['sending'];
+
+  // The same rule as the sign-up script (google-apps-script/Code.gs), so a
+  // mistyped address is caught here, before anything is sent.
+  const EMAIL_RE = /^[a-z0-9][a-z0-9._%+-]{0,63}@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$/;
+  // Big email providers the sign-up script always accepts. For these, "Check
+  // your inbox" shows straight away while the sign-up finishes in the
+  // background; other addresses wait for the script's checks.
+  const KNOWN_PROVIDERS = new Set([
+    'gmail.com', 'googlemail.com', 'hotmail.com', 'hotmail.ca', 'hotmail.fr', 'outlook.com', 'outlook.fr',
+    'live.com', 'live.ca', 'live.fr', 'msn.com', 'yahoo.com', 'yahoo.ca', 'yahoo.fr', 'icloud.com', 'me.com',
+    'mac.com', 'videotron.ca', 'sympatico.ca', 'bell.net', 'cogeco.ca', 'globetrotter.net', 'telus.net',
+    'shaw.ca', 'rogers.com', 'proton.me', 'protonmail.com', 'aol.com', 'gmx.com', 'orange.fr', 'free.fr',
+    'laposte.net', 'sfr.fr',
+  ]);
 
   let messageKey = null;
+  let attempt = 0; // each sign-up or confirmation; a late answer about an earlier one is ignored
   const lang = () => (root.lang === 'fr' ? 'fr' : 'en');
   const hasMessage = (key) => Object.prototype.hasOwnProperty.call(MESSAGES.en, key);
 
@@ -103,25 +120,53 @@
     panel.focus();
   }
 
+  function showForm() {
+    form.hidden = false;
+    done.hidden = true;
+    confirmed.hidden = true;
+  }
+
+  function showDone(address) {
+    done.querySelectorAll('[data-email]').forEach((el) => {
+      el.textContent = address;
+    });
+    showPanel(done);
+  }
+
   // Sign-ups go to a Google Apps Script web app (google-apps-script/Code.gs),
   // whose address is the form's action. The JSON goes out labelled as plain
   // text so the browser sends it straight away: other types make it ask the
-  // server for permission first, which Apps Script can't answer.
+  // server for permission first, which Apps Script can't answer. "keepalive"
+  // lets the request finish even if the visitor closes the tab right away.
   async function send(payload) {
     const res = await fetch(form.action, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
+      keepalive: true,
     });
     return (await res.json().catch(() => null)) || {};
   }
+
+  // Google's script is slow to answer when it hasn't run for a while. Waking it
+  // up while the visitor types their email means it's ready when they click
+  // Register. Nothing is sent: it's an empty request.
+  let warmedUp = false;
+  function warmUp() {
+    if (warmedUp) return;
+    warmedUp = true;
+    fetch(form.action, { mode: 'no-cors', cache: 'no-store' }).catch(() => {});
+  }
+  email.addEventListener('focus', warmUp);
+  email.addEventListener('input', warmUp);
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (form.classList.contains('is-busy')) return;
 
     const address = email.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(address)) {
+    const lower = address.toLowerCase();
+    if (lower.length > 254 || !EMAIL_RE.test(lower)) {
       showMessage('invalid_email');
       email.focus();
       return;
@@ -144,25 +189,37 @@
       website: form.elements.website.value,
     };
 
-    setBusy(true);
-    showMessage(null);
+    const thisAttempt = ++attempt;
+    const instant = KNOWN_PROVIDERS.has(lower.slice(lower.indexOf('@') + 1));
+    if (instant) {
+      showMessage(null);
+      showDone(address);
+    } else {
+      setBusy(true);
+      showMessage('sending');
+    }
+
+    let error = null;
     try {
       const data = await send(payload);
-      if (data.ok === true) {
-        done.querySelectorAll('[data-email]').forEach((el) => {
-          el.textContent = address;
-        });
-        showPanel(done);
-      } else {
-        showMessage(hasMessage(data.error) ? data.error : 'error');
-        const field = fieldFor(data.error);
-        if (field) field.focus();
-      }
+      if (data.ok !== true) error = hasMessage(data.error) ? data.error : 'error';
     } catch {
-      showMessage('network');
-    } finally {
-      setBusy(false);
+      error = 'network';
     }
+    if (!instant) setBusy(false);
+    if (thisAttempt !== attempt) return; // they've moved on, e.g. "Use a different email"
+
+    if (!error) {
+      if (!instant) {
+        showMessage(null);
+        showDone(address);
+      }
+      return;
+    }
+    // Back to the form to say what went wrong.
+    showForm();
+    showMessage(error);
+    (fieldFor(error) || email).focus();
   });
 
   email.addEventListener('input', () => {
@@ -175,11 +232,10 @@
 
   document.querySelectorAll('[data-reset]').forEach((button) => {
     button.addEventListener('click', () => {
+      attempt++;
       form.reset();
       showMessage(null);
-      done.hidden = true;
-      confirmed.hidden = true;
-      form.hidden = false;
+      showForm();
       email.focus();
     });
   });
@@ -198,28 +254,36 @@
   });
 
   // The link in a confirmation email opens https://cuisigo.ca/?confirm=…&lang=…
+  // "You're on the list" shows straight away while the confirmation finishes
+  // in the background; in the rare case it fails, the form says why.
   async function confirmFromLink() {
     const token = new URLSearchParams(window.location.search).get('confirm');
     if (token === null) return;
     // Take the token out of the address bar so it doesn't end up in bookmarks or shared links.
     history.replaceState(null, '', window.location.pathname + window.location.hash);
 
-    setBusy(true);
-    showMessage('confirming');
+    const thisAttempt = ++attempt;
+    const note = confirmed.querySelector('[data-newsletter-note]');
+    note.hidden = false;
+    showPanel(confirmed);
+
+    let error = null;
+    let data = {};
     try {
-      const data = await send({ action: 'confirm', token });
-      if (data.ok === true) {
-        showMessage(null);
-        confirmed.querySelector('[data-newsletter-note]').hidden = !data.newsletter;
-        showPanel(confirmed);
-      } else {
-        showMessage(data.error === 'invalid_token' ? 'invalid_token' : 'error');
-      }
+      data = await send({ action: 'confirm', token });
+      if (data.ok !== true) error = data.error === 'invalid_token' ? 'invalid_token' : 'confirm_failed';
     } catch {
-      showMessage('network');
-    } finally {
-      setBusy(false);
+      error = 'confirm_failed';
     }
+    if (thisAttempt !== attempt) return;
+
+    if (!error) {
+      note.hidden = data.newsletter === false;
+      return;
+    }
+    showForm();
+    showMessage(error);
+    email.focus();
   }
 
   // Sections come into focus as they scroll into view -------------------------

@@ -60,6 +60,7 @@ To change the script later, paste the new code, then click **Deploy → Manage d
 
 - Copy is in `public/index.html`. Each text appears twice, once with `lang="en"` and once with `lang="fr"`, side by side. The French uses *tu*, like the app.
 - Form messages are in `public/main.js` (`MESSAGES`). The confirmation email's wording is in `google-apps-script/Code.gs` (`EMAIL_TEXT`).
+- To keep waits short, "Check your inbox" shows immediately for the big email providers listed in `KNOWN_PROVIDERS` (`public/main.js`), and "You're on the list" shows as soon as a confirmation link opens. The script finishes the work in the background. Only add providers whose addresses the script always accepts.
 - Styles are in `public/styles.css`. App screenshots are in `public/screens/` (WebP, 400 px and 800 px wide).
 - Visitors get French if their browser prefers it and English otherwise. The EN/FR switch remembers their choice.
 

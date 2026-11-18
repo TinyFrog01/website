@@ -164,43 +164,45 @@ function register_(body) {
   const language = body.language === 'fr' ? 'fr' : 'en';
   const consent = newsletter ? clean_(body.consent_text) : '';
 
+  // Kept short on purpose: every sheet operation adds a noticeable delay before
+  // the email goes out. Someone already confirmed simply gets a fresh link (the
+  // reply is the same either way, so the form never reveals who is on the list),
+  // and confirming it again changes nothing.
   return withLock_(() => {
-    const signups = sheet_(SIGNUPS);
     const pending = sheet_(PENDING);
     removeExpired_(pending);
 
-    // Already confirmed, with nothing new to confirm: don't email them again.
-    // The reply is the same either way, so the form never reveals who is on the list.
-    const known = findRow_(signups, S.email, email);
-    if (known && (!newsletter || signups.getRange(known, S.newsletter).getValue() === 'yes')) return { ok: true };
-
     const now = new Date();
-    let row = findRow_(pending, P.email, email);
+    const row = findRow_(pending, P.email, email);
     let token = '';
     if (row) {
       const values = pending.getRange(row, 1, 1, PENDING.headers.length).getValues()[0];
       token = String(values[P.token - 1]);
-      if (!TOKEN_RE.test(token)) {
-        token = Utilities.getUuid();
-        pending.getRange(row, P.token).setValue(token);
-      }
-      // The latest request wins: newsletter, language, consent text, time.
-      pending.getRange(row, P.newsletter, 1, 4).setValues([[newsletter ? 'yes' : 'no', language, asText_(consent), now]]);
       const sentAt = values[P.sentAt - 1];
-      if (sentAt instanceof Date && now - sentAt < CONFIG.resendAfterMinutes * 60 * 1000) return { ok: true };
+      if (sentAt instanceof Date && now - sentAt < CONFIG.resendAfterMinutes * 60 * 1000) {
+        // A link went out moments ago: just note the latest choices.
+        pending.getRange(row, P.newsletter, 1, 4).setValues([[newsletter ? 'yes' : 'no', language, asText_(consent), now]]);
+        return { ok: true };
+      }
     }
 
     // Gmail limits how many emails a script sends per day. Checking before saving
     // anything also means a flood of fake sign-ups can't fill up the sheet.
     if (MailApp.getRemainingDailyQuota() < 1) return { ok: false, error: 'busy' };
 
-    if (!row) {
-      token = Utilities.getUuid();
-      pending.appendRow([email, newsletter ? 'yes' : 'no', language, asText_(consent), now, '', token]);
-      row = pending.getLastRow();
+    if (!TOKEN_RE.test(token)) token = Utilities.getUuid();
+    // One write for the whole row, "Link sent at" included.
+    const values = [email, newsletter ? 'yes' : 'no', language, asText_(consent), now, now, token];
+    if (row) pending.getRange(row, 1, 1, values.length).setValues([values]);
+    else pending.appendRow(values);
+    try {
+      sendConfirmation_(email, language, newsletter, token);
+    } catch (err) {
+      // Not sent: clear "Link sent at" so trying again sends it straight away.
+      const at = row || findRow_(pending, P.email, email);
+      if (at) pending.getRange(at, P.sentAt).setValue('');
+      throw err;
     }
-    sendConfirmation_(email, language, newsletter, token);
-    pending.getRange(row, P.sentAt).setValue(new Date());
     return { ok: true };
   });
 }
@@ -384,8 +386,12 @@ function deleteRow_(sheet, row) {
   else sheet.getRange(row, 1, 1, sheet.getMaxColumns()).clearContent();
 }
 
-// Deletes pending sign-ups whose link has expired.
+// Deletes pending sign-ups whose link has expired. It reads the whole tab, so
+// it runs at most once an hour rather than on every sign-up.
 function removeExpired_(pending) {
+  const cache = CacheService.getScriptCache();
+  if (cache.get('cleaned')) return;
+  cache.put('cleaned', 'yes', 60 * 60);
   const last = pending.getLastRow();
   if (last < 2) return;
   const rows = pending.getRange(2, 1, last - 1, PENDING.headers.length).getValues();
