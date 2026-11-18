@@ -26,7 +26,7 @@ const CONFIG = {
   senderName: 'Cuisigo', // "From" name on confirmation emails
   replyTo: '', // optional, e.g. 'hello@cuisigo.ca': where replies to confirmation emails go
   linkValidDays: 7, // confirmation links stop working after this many days
-  resendAfterMinutes: 10, // never email the same address more often than this
+  resendAfterMinutes: 2, // never email the same address more often than this
 };
 
 // The two tabs, and their column numbers. Don't rename the tabs or reorder
