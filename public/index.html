@@ -62,8 +62,11 @@
 
         <div class="signup" id="signup">
           <!-- Sign-ups go to the Google Apps Script in google-apps-script/Code.gs, which keeps
-               them in a private Google Sheet. The action is its web app URL (ends in /exec). -->
-          <form class="signup-form" id="register" action="https://script.google.com/macros/s/AKfycbzKfcQMmYhXBMozPNStyTR0S-9YLdX6t1WPs6iHvXcqOkDB9hxkNUgJKfR1wT1vNy4Iug/exec" method="post" novalidate>
+               them in a private Google Sheet. The action is its web app URL (ends in /exec).
+               No "novalidate" here on purpose: if main.js doesn't run, the browser itself
+               refuses an empty email or an unchecked box. main.js switches that off and
+               shows the site's own messages instead. -->
+          <form class="signup-form" id="register" action="https://script.google.com/macros/s/AKfycbzKfcQMmYhXBMozPNStyTR0S-9YLdX6t1WPs6iHvXcqOkDB9hxkNUgJKfR1wT1vNy4Iug/exec" method="post">
             <div class="field">
               <label class="sr-only" for="email"><span lang="en">Email address</span><span lang="fr">Adresse courriel</span></label>
               <input id="email" name="email" type="email" inputmode="email" autocomplete="email"
@@ -78,8 +81,8 @@
             <p class="form-msg" id="form-msg" aria-live="polite"></p>
 
             <label class="consent">
-              <!-- Required: registering means getting the newsletter. It must never be pre-ticked:
-                   Canada's anti-spam law (CASL) needs people to tick it themselves. -->
+              <!-- Required: registering means getting the newsletter. It must never be pre-checked:
+                   Canada's anti-spam law (CASL) needs people to check it themselves. -->
               <input type="checkbox" name="newsletter" value="yes" required aria-describedby="form-msg">
               <span class="consent-text" lang="en">Send me the Cuisigo newsletter. I can unsubscribe at any time.</span>
               <span class="consent-text" lang="fr">Je veux recevoir l’infolettre de Cuisigo. Je peux me désabonner en tout temps.</span>

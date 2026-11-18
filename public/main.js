@@ -9,10 +9,14 @@
   const newsletterBox = form.elements.newsletter;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Without this script, the browser checks the required fields itself (empty
+  // email, unchecked newsletter box). With it, the form shows its own messages.
+  form.noValidate = true;
+
   const MESSAGES = {
     en: {
       invalid_email: 'Please enter a valid email address.',
-      newsletter_required: 'Please tick the newsletter box to register.',
+      newsletter_required: 'Please check the newsletter box to register.',
       email_domain: 'This email address can’t receive mail. Check it for typos.',
       disposable: 'Please use your regular email address, not a temporary one.',
       busy: 'Lots of sign-ups right now. Please try again a little later.',

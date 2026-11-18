@@ -16,7 +16,7 @@ The preview's form sends to the real sign-up sheet, so delete any test rows afte
 
 ## How sign-ups work
 
-1. A visitor enters their email and ticks the newsletter box. The box is required: registering means getting the newsletter. The page sends the sign-up to a small Google Apps Script ([google-apps-script/Code.gs](google-apps-script/Code.gs)) that runs in your Google account.
+1. A visitor enters their email and checks the newsletter box. The box is required: registering means getting the newsletter. The page sends the sign-up to a small Google Apps Script ([google-apps-script/Code.gs](google-apps-script/Code.gs)) that runs in your Google account.
 2. The script turns away addresses that can't be real: a wrong format, a domain that can't receive email (checked live), or a throwaway inbox such as Yopmail or Mailinator.
 3. It saves the address in the sheet's **Pending** tab and emails a confirmation link, in English or French to match the page.
 4. When the person clicks the link, the address moves to the **Sign-ups** tab. Only confirmed addresses ever go there. Unconfirmed ones are deleted after 7 days.

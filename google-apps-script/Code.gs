@@ -8,7 +8,7 @@
  * keeps addresses that are confirmed to be real.
  *
  *   1. Someone submits the form on cuisigo.ca.
- *   2. The newsletter box must be ticked, and the address is checked: valid
+ *   2. The newsletter box must be checked, and the address is checked: valid
  *      format, a domain that can receive email, and not a throwaway inbox.
  *      It goes in the "Pending" tab and gets an email with a confirmation link.
  *   3. When they click the link, the address moves to the "Sign-ups" tab.
@@ -86,7 +86,7 @@ const PAGE_TEXT = {
     ['Vérifie tes courriels.', 'On t’a envoyé un lien de confirmation. Clique dessus pour terminer ton inscription.']],
   invalid: [['Check your email address.', 'That address can’t receive our emails. Please go back and try again.'],
     ['Vérifie ton adresse courriel.', 'Cette adresse ne peut pas recevoir nos courriels. Reviens en arrière et réessaie.']],
-  newsletter: [['Tick the newsletter box.', 'Registering means getting the Cuisigo newsletter. Please go back and tick the box.'],
+  newsletter: [['Check the newsletter box.', 'Registering means getting the Cuisigo newsletter. Please go back and check the box.'],
     ['Coche la case de l’infolettre.', 'Pour t’inscrire, il faut accepter de recevoir l’infolettre de Cuisigo. Reviens en arrière et coche la case.']],
   busy: [['Lots of sign-ups right now.', 'Please try again a little later.'],
     ['Beaucoup d’inscriptions en ce moment.', 'Réessaie un peu plus tard.']],
