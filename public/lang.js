@@ -1,13 +1,20 @@
-// Runs before the page renders: picks the language (saved choice, then the
-// browser's preference, then English) so the right copy shows on first paint.
+// Runs before the page renders: picks the language (the link's ?lang=, then the
+// saved choice, then the browser's preference, then English) so the right copy
+// shows on first paint.
 (function () {
   var root = document.documentElement;
   var lang = null;
   root.classList.add('js');
 
-  try {
-    lang = localStorage.getItem('cuisigo-lang');
-  } catch (e) {}
+  // Confirmation emails link back with the language the person signed up in.
+  var fromLink = /[?&]lang=(en|fr)(?:&|$)/.exec(window.location.search);
+  if (fromLink) {
+    lang = fromLink[1];
+  } else {
+    try {
+      lang = localStorage.getItem('cuisigo-lang');
+    } catch (e) {}
+  }
 
   if (lang !== 'en' && lang !== 'fr') {
     lang = 'en';

@@ -2,7 +2,7 @@
   "name": "cuisigo-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Cuisigo pre-launch landing page with launch registration and newsletter opt-in.",
+  "description": "Cuisigo pre-launch landing page. Sign-ups are confirmed by email and kept in a private Google Sheet.",
   "type": "module",
   "scripts": {
     "start": "node server.js",

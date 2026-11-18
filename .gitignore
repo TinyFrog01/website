@@ -1,5 +1,10 @@
-# Sign-ups contain personal information: never commit them.
+# Sign-up lists contain personal information: never commit them.
+# The real list lives in a private Google Sheet; these catch downloaded copies.
 data/
+*.csv
+*.tsv
+*.xlsx
+*.ods
 
 node_modules/
 .DS_Store

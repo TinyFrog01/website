@@ -61,7 +61,9 @@
         </p>
 
         <div class="signup" id="signup">
-          <form class="signup-form" id="register" action="/api/subscribe" method="post" novalidate>
+          <!-- Sign-ups go to the Google Apps Script in google-apps-script/Code.gs, which keeps
+               them in a private Google Sheet. The action is its web app URL (ends in /exec). -->
+          <form class="signup-form" id="register" action="https://script.google.com/macros/s/AKfycbzKfcQMmYhXBMozPNStyTR0S-9YLdX6t1WPs6iHvXcqOkDB9hxkNUgJKfR1wT1vNy4Iug/exec" method="post" novalidate>
             <div class="field">
               <label class="sr-only" for="email"><span lang="en">Email address</span><span lang="fr">Adresse courriel</span></label>
               <input id="email" name="email" type="email" inputmode="email" autocomplete="email"
@@ -96,20 +98,37 @@
           <div class="signup-done" id="signup-done" tabindex="-1" hidden>
             <svg class="mark mark-lock" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path class="mark-corners" d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle class="mark-dot" cx="9.5" cy="9.5" r="3"/></svg>
             <p class="done-title">
+              <span lang="en">Check your <span class="nw">inbox<span class="period">.</span></span></span>
+              <span lang="fr">Vérifie tes <span class="nw">courriels<span class="period">.</span></span></span>
+            </p>
+            <p class="done-text">
+              <span lang="en">We sent a confirmation link to <strong data-email></strong>. Click it to finish registering.</span>
+              <span lang="fr">On a envoyé un lien de confirmation à <strong data-email></strong>. Clique dessus pour terminer ton inscription.</span>
+            </p>
+            <p class="form-note">
+              <span lang="en">Nothing after a few minutes? Check your spam folder. If you already confirmed this address, you’re all set.</span>
+              <span lang="fr">Rien reçu après quelques minutes? Regarde dans tes pourriels. Si tu as déjà confirmé cette adresse, tu n’as rien d’autre à faire.</span>
+            </p>
+            <button class="link-btn" type="button" data-reset>
+              <span lang="en">Use a different email</span><span lang="fr">Utiliser une autre adresse</span>
+            </button>
+          </div>
+
+          <!-- Shown after someone opens the link in their confirmation email. -->
+          <div class="signup-done" id="signup-confirmed" tabindex="-1" hidden>
+            <svg class="mark mark-lock" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path class="mark-corners" d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle class="mark-dot" cx="9.5" cy="9.5" r="3"/></svg>
+            <p class="done-title">
               <span lang="en">You’re on the <span class="nw">list<span class="period">.</span></span></span>
               <span lang="fr">Tu es sur la <span class="nw">liste<span class="period">.</span></span></span>
             </p>
             <p class="done-text">
-              <span lang="en">We’ll email <strong data-email></strong> on launch day.</span>
-              <span lang="fr">On t’écrira à <strong data-email></strong> le jour du lancement.</span>
+              <span lang="en">Your email is confirmed. We’ll email you on launch day.</span>
+              <span lang="fr">Ton courriel est confirmé. On t’écrira le jour du lancement.</span>
             </p>
             <p class="done-text" data-newsletter-note hidden>
               <span lang="en">You’ll get our newsletter too.</span>
               <span lang="fr">Tu recevras aussi notre infolettre.</span>
             </p>
-            <button class="link-btn" type="button" data-reset>
-              <span lang="en">Use a different email</span><span lang="fr">Utiliser une autre adresse</span>
-            </button>
           </div>
         </div>
       </div>

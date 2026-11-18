@@ -2,6 +2,7 @@
   const root = document.documentElement;
   const form = document.getElementById('register');
   const done = document.getElementById('signup-done');
+  const confirmed = document.getElementById('signup-confirmed');
   const email = document.getElementById('email');
   const msg = document.getElementById('form-msg');
   const submit = form.querySelector('button[type="submit"]');
@@ -10,20 +11,33 @@
   const MESSAGES = {
     en: {
       invalid_email: 'Please enter a valid email address.',
-      rate_limited: 'Too many attempts. Please try again in a few minutes.',
+      email_domain: 'This email address can’t receive mail. Check it for typos.',
+      disposable: 'Please use your regular email address, not a temporary one.',
+      busy: 'Lots of sign-ups right now. Please try again a little later.',
       network: 'We couldn’t reach the server. Check your connection and try again.',
       error: 'Something went wrong. Please try again.',
+      confirming: 'Confirming your email…',
+      invalid_token: 'This confirmation link has expired or was already used. Enter your email to get a new one.',
     },
     fr: {
       invalid_email: 'Entre une adresse courriel valide.',
-      rate_limited: 'Trop de tentatives. Réessaie dans quelques minutes.',
+      email_domain: 'Cette adresse ne peut pas recevoir de courriels. Vérifie qu’il n’y a pas de faute de frappe.',
+      disposable: 'Utilise ton adresse courriel habituelle, pas une adresse temporaire.',
+      busy: 'Il y a beaucoup d’inscriptions en ce moment. Réessaie un peu plus tard.',
       network: 'Impossible de joindre le serveur. Vérifie ta connexion et réessaie.',
       error: 'Oups, une erreur est survenue. Réessaie.',
+      confirming: 'Confirmation de ton courriel…',
+      invalid_token: 'Ce lien de confirmation a expiré ou a déjà été utilisé. Entre ton courriel pour en recevoir un nouveau.',
     },
   };
+  // Problems with what the person typed: the field gets marked as invalid.
+  const FIELD_ERRORS = ['invalid_email', 'email_domain', 'disposable'];
+  // Progress rather than a problem: shown in grey, not red.
+  const STATUS = ['confirming'];
 
   let messageKey = null;
   const lang = () => (root.lang === 'fr' ? 'fr' : 'en');
+  const hasMessage = (key) => Object.prototype.hasOwnProperty.call(MESSAGES.en, key);
 
   // Language ------------------------------------------------------------------
 
@@ -56,7 +70,8 @@
   function showMessage(key) {
     messageKey = key;
     msg.textContent = key ? MESSAGES[lang()][key] : '';
-    if (key === 'invalid_email') email.setAttribute('aria-invalid', 'true');
+    msg.classList.toggle('is-status', STATUS.includes(key));
+    if (FIELD_ERRORS.includes(key)) email.setAttribute('aria-invalid', 'true');
     else email.removeAttribute('aria-invalid');
   }
 
@@ -66,14 +81,24 @@
     submit.disabled = busy;
   }
 
-  function showDone(address, newsletter) {
-    done.querySelectorAll('[data-email]').forEach((el) => {
-      el.textContent = address;
-    });
-    done.querySelector('[data-newsletter-note]').hidden = !newsletter;
+  function showPanel(panel) {
     form.hidden = true;
-    done.hidden = false;
-    done.focus();
+    done.hidden = panel !== done;
+    confirmed.hidden = panel !== confirmed;
+    panel.focus();
+  }
+
+  // Sign-ups go to a Google Apps Script web app (google-apps-script/Code.gs),
+  // whose address is the form's action. The JSON goes out labelled as plain
+  // text so the browser sends it straight away: other types make it ask the
+  // server for permission first, which Apps Script can't answer.
+  async function send(payload) {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+    return (await res.json().catch(() => null)) || {};
   }
 
   form.addEventListener('submit', async (event) => {
@@ -101,18 +126,15 @@
     setBusy(true);
     showMessage(null);
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = (await res.json().catch(() => null)) || {};
-      if (res.ok) {
-        showDone(address, newsletter);
-      } else if (data.error in MESSAGES.en) {
-        showMessage(data.error);
+      const data = await send(payload);
+      if (data.ok === true) {
+        done.querySelectorAll('[data-email]').forEach((el) => {
+          el.textContent = address;
+        });
+        showPanel(done);
       } else {
-        showMessage(res.status === 429 ? 'rate_limited' : 'error');
+        showMessage(hasMessage(data.error) ? data.error : 'error');
+        if (FIELD_ERRORS.includes(data.error)) email.focus();
       }
     } catch {
       showMessage('network');
@@ -125,12 +147,15 @@
     if (messageKey) showMessage(null);
   });
 
-  done.querySelector('[data-reset]').addEventListener('click', () => {
-    form.reset();
-    showMessage(null);
-    done.hidden = true;
-    form.hidden = false;
-    email.focus();
+  document.querySelectorAll('[data-reset]').forEach((button) => {
+    button.addEventListener('click', () => {
+      form.reset();
+      showMessage(null);
+      done.hidden = true;
+      confirmed.hidden = true;
+      form.hidden = false;
+      email.focus();
+    });
   });
 
   // The closing "Register" button brings you back to the form.
@@ -141,9 +166,35 @@
         behavior: reduceMotion ? 'auto' : 'smooth',
         block: 'center',
       });
-      (form.hidden ? done : email).focus({ preventScroll: true });
+      const panel = [done, confirmed].find((el) => !el.hidden);
+      (panel || email).focus({ preventScroll: true });
     });
   });
+
+  // The link in a confirmation email opens https://cuisigo.ca/?confirm=…&lang=…
+  async function confirmFromLink() {
+    const token = new URLSearchParams(window.location.search).get('confirm');
+    if (token === null) return;
+    // Take the token out of the address bar so it doesn't end up in bookmarks or shared links.
+    history.replaceState(null, '', window.location.pathname + window.location.hash);
+
+    setBusy(true);
+    showMessage('confirming');
+    try {
+      const data = await send({ action: 'confirm', token });
+      if (data.ok === true) {
+        showMessage(null);
+        confirmed.querySelector('[data-newsletter-note]').hidden = !data.newsletter;
+        showPanel(confirmed);
+      } else {
+        showMessage(data.error === 'invalid_token' ? 'invalid_token' : 'error');
+      }
+    } catch {
+      showMessage('network');
+    } finally {
+      setBusy(false);
+    }
+  }
 
   // Sections come into focus as they scroll into view -------------------------
 
@@ -169,4 +220,5 @@
   });
 
   applyLanguage(lang(), false);
+  confirmFromLink();
 })();

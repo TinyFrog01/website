@@ -468,6 +468,10 @@ html[lang="fr"] .display {
   margin-top: 0;
 }
 
+.form-msg.is-status {
+  color: var(--ink-2);
+}
+
 .consent {
   display: flex;
   align-items: flex-start;
@@ -856,16 +860,6 @@ html[lang="fr"] .display {
 
 .brand-sm .brand-name {
   font-size: 1.05rem;
-}
-
-/* Page shown after a sign-up without JavaScript. */
-.notice {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 1.5rem;
-  min-height: 100svh;
 }
 
 /* Motion: everything comes into focus. ---------------------------------------- */
