@@ -204,6 +204,48 @@ html[lang="fr"] body [lang="en"] {
   margin-right: -0.6rem;
 }
 
+/* Link to the game, next to the language switch. */
+.game-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-left: auto;
+  padding: 0.55rem 0.2rem;
+  color: var(--ink-2);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.game-link::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c0302a; /* steak red, like the game */
+}
+
+.game-link:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 379px) {
+  .site-header {
+    gap: 0.5rem;
+  }
+
+  .game-link {
+    letter-spacing: 0.05em;
+  }
+
+  .game-link::before,
+  .game-link-verb {
+    display: none;
+  }
+}
+
 .lang-switch button {
   display: inline-flex;
   align-items: center;

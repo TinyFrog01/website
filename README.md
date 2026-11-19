@@ -64,6 +64,53 @@ To change the script later, paste the new code, then click **Deploy → Manage d
 - Styles are in `public/styles.css`. App screenshots are in `public/screens/` (WebP, 400 px and 800 px wide).
 - Visitors get French if their browser prefers it and English otherwise. The EN/FR switch remembers their choice.
 
+## Rare
+
+A daily food game at [cuisigo.ca/rare](https://cuisigo.ca/rare/), linked from the landing page's header and footer. Every day has seven food prompts, such as "Name a pasta shape", with 25 seconds for each. The less common a correct answer, the more it scores. Scores are named after how a steak is cooked: Well done 10, Medium 25, Rare 50, Blue 75, Tartare 100. Running out of time or passing is Burnt, for 0. That's 700 points at most, and the day's total gives a kitchen rank: Dishwasher, Prep cook, Line cook, Chef de partie, Sous-chef, Head Chef.
+
+There's also a harder daily menu for cooks, the **Chef's Table**: seven prompts on knife cuts, French sauces, the brigade, technique and so on. Its last course is **Beat the chef**: the player sees the chef's answer (a Rare or Blue one) and wins by naming a rarer one.
+
+- Everyone gets the same prompts on the same day. They change at midnight, Montréal time, and no prompt comes back on the next day.
+- Each menu can be played once a day. Scores, streaks and an unfinished game are kept in the player's browser (`localStorage`). Nothing is sent anywhere.
+- Rarity is our own estimate, set in the prompt lists. It isn't measured from players, since nothing is sent anywhere.
+- Answers are accepted in English or French, with small typos, plurals and missing accents. A wrong or unknown answer can be retried until time runs out.
+
+### Files
+
+| File | What's in it |
+| --- | --- |
+| `public/rare/menu.js` | The everyday prompts and their answers |
+| `public/rare/chef.js` | The Chef's Table prompts and their answers |
+| `public/rare/engine.js` | Matching answers, choosing each day's prompts and the chef's answer |
+| `public/rare/game.js` | The page: rounds, timer, scores, ranks, sharing. On-screen text is in `TEXT` |
+| `public/rare/index.html`, `rare.css` | Layout and styles, on top of `public/styles.css` |
+
+### Adding or changing prompts
+
+Each prompt in `menu.js` or `chef.js` looks like this:
+
+```js
+{
+  id: 'citrus',
+  en: 'Name a citrus fruit',
+  fr: 'Nomme un agrume',
+  welldone: 'Orange, Lemon / Citron, Lime|citron vert, Grapefruit / Pamplemousse',
+  medium: 'Clementine / Clémentine, Kumquat, ...',
+  rare: '...',
+  blue: '...',
+  tartare: 'Citrange, Iyokan, ...',
+},
+```
+
+1. `id` is a short name that never changes. `en` and `fr` are the prompt, without a final period.
+2. Each tier lists its answers, separated by commas. Put an answer in the tier for how few people would think of it, not how hard it is.
+3. Write `English / French` when the two languages show the name differently, then any other accepted spellings after `|`. Every name and spelling is accepted in both languages. Names can't contain commas.
+4. On the Chef's Table, give each prompt a few Blue and Tartare answers, so there's room to beat a chef who says something Rare.
+
+Then run `npm run check:game`. It reports a name used by two answers in the same prompt, an answer listed twice, and any day that can't get seven prompts. `npm run check:game -- --all` also lists answers only a typo apart. That's fine as long as both are real: an exact name always wins, and a typo between two answers goes to the more common one.
+
+Adding or removing a prompt changes which prompts come up from then on. A game that has already started keeps its prompts, but publishing just after midnight is still the safest time.
+
 ## Before going live
 
 - **Contact info:** add a contact email or mailing address to the footer. Canada's anti-spam law (CASL) requires the sender's contact details where consent is collected.

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en"
+  data-en-title="Rare · A daily food game by Cuisigo"
+  data-fr-title="Rare · Le jeu culinaire quotidien de Cuisigo">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rare · A daily food game by Cuisigo</title>
+  <meta name="description" content="Seven food prompts a day, 25 seconds each. The less common your answer, the rarer it’s cooked and the more it scores.">
+  <meta name="theme-color" content="#f2f2f0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cuisigo">
+  <meta property="og:title" content="Rare · How do you like your answers?">
+  <meta property="og:description" content="Seven food prompts a day. Common answers are well done; rare ones score big. · Sept questions de bouffe par jour. Les réponses courantes sont bien cuites, les rares rapportent gros.">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/rare/rare.css">
+  <script src="/lang.js"></script>
+  <script src="/rare/menu.js" defer></script>
+  <script src="/rare/chef.js" defer></script>
+  <script src="/rare/engine.js" defer></script>
+  <script src="/rare/game.js" defer></script>
+</head>
+<body class="game-page">
+  <!-- Like the landing page, static copy exists twice: lang="en" and lang="fr".
+       Text the game writes itself is in game.js (TEXT). -->
+  <header class="site-header wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
+      <span class="brand-name">Cuisigo</span>
+    </a>
+    <div class="lang-switch" role="group" aria-label="Language / Langue">
+      <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+      <button type="button" data-set-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
+    </div>
+  </header>
+
+  <main class="game wrap">
+    <noscript>
+      <p class="noscript">
+        <span lang="en">Rare needs JavaScript to run.</span>
+        <span lang="fr">Rare a besoin de JavaScript pour fonctionner.</span>
+      </p>
+    </noscript>
+
+    <!-- Rules ----------------------------------------------------------------- -->
+    <section class="screen intro" id="screen-intro" aria-labelledby="intro-title">
+      <div class="intro-top">
+        <div class="intro-copy">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span><span id="intro-label">Daily game</span></p>
+          <h1 class="display" id="intro-title">Rare<span class="period">.</span></h1>
+          <p class="lede">
+            <span lang="en">Seven food prompts a day, 25 seconds each, the same for everyone. Give an answer that fits. The less common it is, the rarer it’s cooked and the more it scores.</span>
+            <span lang="fr">Sept questions de bouffe par jour, 25 secondes chacune, les mêmes pour tout le monde. Donne une réponse qui marche. Moins elle est courante, plus elle est saignante et plus elle rapporte.</span>
+          </p>
+          <div class="intro-actions">
+            <button class="btn" id="start-menu" type="button">
+              <span id="start-menu-label">Start today’s menu</span>
+              <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+            </button>
+            <a class="link-btn" href="#chefs-table">
+              <span lang="en">Cook for a living? Try the Chef’s Table</span>
+              <span lang="fr">Tu cuisines pour gagner ta vie? Essaie la Table du chef</span>
+            </a>
+          </div>
+          <p class="form-note">
+            <span lang="en">New prompts every day at midnight (Montréal time).</span>
+            <span lang="fr">De nouvelles questions chaque jour à minuit (heure de Montréal).</span>
+          </p>
+        </div>
+
+        <!-- One prompt, three answers: the whole game in a picture. -->
+        <figure class="example">
+          <div class="ticket frame">
+            <div class="ticket-head">
+              <span class="ticket-dot" aria-hidden="true"></span>
+              <span><span lang="en">Course 1 of 7</span><span lang="fr">Service 1 sur 7</span></span>
+              <span class="timer-num" aria-hidden="true">14</span>
+            </div>
+            <p class="prompt"><span lang="en">Name a pasta shape.</span><span lang="fr">Nomme une forme de pâtes.</span></p>
+            <div class="timer" aria-hidden="true"><div class="timer-bar"></div></div>
+          </div>
+          <ol class="example-answers">
+            <li><span class="example-answer">Spaghetti</span><span class="tier-badge tier-welldone"><span lang="en">Well done</span><span lang="fr">Bien cuit</span><span class="tier-points">+10</span></span></li>
+            <li><span class="example-answer">Orecchiette</span><span class="tier-badge tier-rare"><span lang="en">Rare</span><span lang="fr">Saignant</span><span class="tier-points">+50</span></span></li>
+            <li><span class="example-answer">Pici</span><span class="tier-badge tier-tartare"><span lang="en">Tartare</span><span lang="fr">Tartare</span><span class="tier-points">+100</span></span></li>
+          </ol>
+          <figcaption>
+            <span lang="en">Same prompt, three answers. Everyone says spaghetti.</span>
+            <span lang="fr">Même question, trois réponses. Tout le monde dit spaghetti.</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- The doneness scale, from the answer everyone gives to the one nobody does. -->
+      <ol class="doneness" id="doneness" aria-label="Points"></ol>
+
+      <ul class="rules">
+        <li>
+          <h2><span lang="en">25 seconds a prompt</span><span lang="fr">25 secondes par question</span></h2>
+          <p>
+            <span lang="en">Answer in English or French. Small typos are fine. Not on our list? Try another before time runs out. Run out of time and it’s burnt: no points.</span>
+            <span lang="fr">Réponds en français ou en anglais. Les petites fautes passent. Pas sur notre liste? Essaie autre chose avant la fin du temps. Si le temps file, c’est carbonisé : zéro point.</span>
+          </p>
+        </li>
+        <li>
+          <h2><span lang="en">The rarer, the better</span><span lang="fr">Plus c’est saignant, mieux c’est</span></h2>
+          <p>
+            <span lang="en">The answer everyone gives is well done: 10 points. The fewer people who’d think of yours, the less it’s cooked, all the way to tartare for 100.</span>
+            <span lang="fr">La réponse que tout le monde donne est bien cuite : 10 points. Moins les gens y pensent, moins elle est cuite, jusqu’au tartare à 100.</span>
+          </p>
+        </li>
+        <li>
+          <h2><span lang="en">Earn your rank</span><span lang="fr">Gagne tes galons</span></h2>
+          <p>
+            <span lang="en">Seven prompts, 700 points at most. Your total gives you a kitchen rank, from Dishwasher up to Head Chef.</span>
+            <span lang="fr">Sept questions, 700 points au maximum. Ton total te donne un rang en cuisine, de Plongeur à Chef de cuisine.</span>
+          </p>
+        </li>
+      </ul>
+
+      <ol class="ranks" id="ranks" aria-label="Kitchen ranks / Rangs"></ol>
+
+      <!-- The harder menu ---------------------------------------------------- -->
+      <section class="chefs-table" id="chefs-table" aria-labelledby="chef-title">
+        <div class="chefs-table-copy">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span><span lang="en">For chefs</span><span lang="fr">Pour les chefs</span></p>
+          <h2 class="display-2" id="chef-title">
+            <span lang="en">Chef’s <em><span class="nw">Table<span class="period">.</span></span></em></span>
+            <span lang="fr">Table du <em><span class="nw">chef<span class="period">.</span></span></em></span>
+          </h2>
+          <p class="lede">
+            <span lang="en">A harder menu, seven more courses a day: knife cuts, French sauces, the kitchen brigade and more. The last course is Beat the chef. You see the chef’s answer, and you have to find a rarer one.</span>
+            <span lang="fr">Un menu plus corsé, sept autres services par jour : tailles de légumes, sauces françaises, brigade de cuisine et plus. Le dernier service, c’est Bats le chef. Tu vois la réponse du chef et tu dois en trouver une plus rare.</span>
+          </p>
+          <button class="btn" id="start-chef" type="button">
+            <span id="start-chef-label">Sit at the Chef’s Table</span>
+            <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+          </button>
+        </div>
+        <div class="chef-sample frame" aria-hidden="true">
+          <p class="chef-sample-label"><span lang="en">Course 7 · Beat the chef</span><span lang="fr">Service 7 · Bats le chef</span></p>
+          <p class="prompt"><span lang="en">Name a knife cut.</span><span lang="fr">Nomme une taille de légumes.</span></p>
+          <p class="chef-sample-said">
+            <span lang="en">The chef said</span><span lang="fr">Le chef a dit</span>
+            <strong>Jardinière</strong>
+            <span class="tier-badge tier-rare"><span lang="en">Rare</span><span lang="fr">Saignant</span><span class="tier-points">+50</span></span>
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- A course, then its result --------------------------------------------- -->
+    <section class="screen play" id="screen-play" aria-labelledby="hud-title" hidden>
+      <div class="hud">
+        <div>
+          <h1 class="hud-title" id="hud-title"></h1>
+          <p class="hud-sub" id="hud-sub"></p>
+        </div>
+        <p class="hud-score"><span id="hud-score">0</span> <span id="hud-points">points</span></p>
+      </div>
+      <ol class="courses" id="courses" aria-hidden="true"></ol>
+
+      <div class="ticket frame" id="ticket">
+        <div class="ticket-head">
+          <span class="ticket-dot" aria-hidden="true"></span>
+          <span id="ticket-label"></span>
+          <span class="timer-num" id="timer-num" role="timer"></span>
+        </div>
+        <p class="prompt" id="prompt"></p>
+        <div class="chef-bar" id="chef-bar" hidden>
+          <p><span id="chef-said"></span> <strong id="chef-answer"></strong> <span id="chef-tier"></span></p>
+          <p class="chef-goal" id="chef-goal"></p>
+        </div>
+        <div class="timer" aria-hidden="true"><div class="timer-bar" id="timer-bar"></div></div>
+      </div>
+
+      <form class="answer" id="answer" autocomplete="off">
+        <div class="field">
+          <label class="sr-only" for="guess"><span lang="en">Your answer</span><span lang="fr">Ta réponse</span></label>
+          <input id="guess" name="guess" type="text" maxlength="60" autocomplete="off" autocapitalize="none"
+            autocorrect="off" spellcheck="false" enterkeyhint="go" placeholder="Your answer…" aria-describedby="feedback">
+          <button class="btn" type="submit">
+            <span lang="en">Serve</span><span lang="fr">Servir</span>
+            <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+          </button>
+        </div>
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+        <button class="link-btn pass" id="pass" type="button">
+          <span lang="en">Pass (0 points)</span><span lang="fr">Passer (0 point)</span>
+        </button>
+      </form>
+
+      <div class="result" id="result" hidden>
+        <p class="result-tier" id="result-tier"></p>
+        <p class="result-answer" id="result-answer"></p>
+        <p class="result-note" id="result-note"></p>
+        <p class="chef-verdict" id="chef-verdict" hidden></p>
+        <p class="mini-label" id="examples-label"></p>
+        <ul class="alts" id="examples"></ul>
+        <button class="btn" id="next" type="button">
+          <span id="next-label"></span>
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+        </button>
+      </div>
+      <p class="sr-only" id="announce" aria-live="polite"></p>
+    </section>
+
+    <!-- The day's total ------------------------------------------------------- -->
+    <section class="screen end" id="screen-end" aria-labelledby="end-title" hidden>
+      <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span><span id="end-label"></span></p>
+      <h1 class="display-2" id="end-title" tabindex="-1"></h1>
+
+      <div class="end-grid">
+        <div class="end-score">
+          <p class="score-big"><span id="end-score">0</span><span class="score-of">/700</span></p>
+          <p class="rank" id="end-rank"></p>
+          <div class="meter" id="end-meter" aria-hidden="true"><span></span></div>
+          <p class="rank-next" id="end-rank-next"></p>
+          <p class="beat-line" id="end-beat" hidden></p>
+
+          <div class="share">
+            <button class="btn" id="share" type="button">
+              <span id="share-label">Copy my results</span>
+              <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+            </button>
+            <p class="share-msg" id="share-msg" aria-live="polite"></p>
+            <textarea class="share-text" id="share-text" rows="4" readonly hidden aria-label="Results / Résultats"></textarea>
+          </div>
+
+          <dl class="stats" id="stats"></dl>
+          <p class="countdown" id="countdown"></p>
+          <div class="end-actions">
+            <button class="btn btn-quiet" id="other-menu" type="button">
+              <span id="other-menu-label"></span>
+              <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+            </button>
+            <button class="link-btn" id="home" type="button">Back to the rules</button>
+          </div>
+        </div>
+
+        <ol class="recap" id="recap"></ol>
+      </div>
+
+      <div class="game-cta frame">
+        <p class="game-cta-title">
+          <span lang="en">Know your food? Cook it with what’s in your <span class="nw">fridge<span class="period">.</span></span></span>
+          <span lang="fr">Tu connais ta bouffe? <span class="nw">Cuisine-la</span> avec ce qu’il y a dans ton <span class="nw">frigo<span class="period">.</span></span></span>
+        </p>
+        <p class="lede">
+          <span lang="en">Point your phone at your fridge and Cuisigo finds recipes you can make tonight. Launching January 2027.</span>
+          <span lang="fr">Pointe ton téléphone vers ton frigo et Cuisigo trouve des recettes à faire ce soir. Lancement en janvier 2027.</span>
+        </p>
+        <a class="btn" href="/#signup">
+          <span lang="en">Register</span><span lang="fr">Je m’inscris</span>
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <a class="brand brand-sm" href="/">
+      <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
+      <span class="brand-name">Cuisigo</span>
+    </a>
+    <p>
+      <span lang="en">Rare is a game by Cuisigo. How rare an answer is reflects our own estimate. Your scores stay in this browser.</span>
+      <span lang="fr">Rare est un jeu de Cuisigo. La rareté des réponses, c’est notre estimation. Tes scores restent dans ce navigateur.</span>
+    </p>
+    <p>© <span data-year>2026</span> Cuisigo</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,1039 @@
+/* Rare. Builds on /styles.css (fonts, colours, header, buttons, brackets). */
+
+:root {
+  /* Doneness, from no answer to raw. Each one carries white text, and they
+     match the shared squares: ⬛ 🟫 🟧 🟥 🟪 🥩 */
+  --d-burnt: #3d3835;
+  --d-welldone: #7a5b47;
+  --d-medium: #a95a49;
+  --d-rare: #c0302a;
+  --d-blue: #5e2f7a;
+  --d-tartare: #8c1027;
+}
+
+.tier-burnt { --tier: var(--d-burnt); }
+.tier-welldone { --tier: var(--d-welldone); }
+.tier-medium { --tier: var(--d-medium); }
+.tier-rare { --tier: var(--d-rare); }
+.tier-blue { --tier: var(--d-blue); }
+.tier-tartare { --tier: var(--d-tartare); }
+
+.game {
+  padding-block: clamp(8px, 3vw, 32px) clamp(72px, 10vw, 120px);
+  /* The brackets start wide and close in; on phones that would briefly poke
+     past the screen edge and let the page scroll sideways. */
+  overflow-x: clip;
+}
+
+.screen.play {
+  max-width: 40rem;
+  margin-inline: auto;
+  scroll-margin-top: 12px;
+}
+
+.noscript {
+  margin-block: 2rem;
+  font-weight: 600;
+}
+
+.btn-quiet {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+.btn-quiet:hover {
+  background: rgba(17, 17, 17, 0.06);
+}
+
+/* Rules ------------------------------------------------------------------------- */
+
+.intro-top {
+  display: grid;
+  align-items: center;
+  gap: clamp(56px, 8vw, 88px);
+}
+
+@media (min-width: 960px) {
+  .intro-top {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+}
+
+.intro .display,
+html[lang="fr"] .intro .display {
+  font-size: clamp(4rem, 19vw, 8rem);
+  letter-spacing: -0.06em;
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-top: 2.5rem;
+}
+
+.intro-actions .link-btn {
+  margin-top: 0;
+}
+
+.example {
+  width: 100%;
+  max-width: 30rem;
+  margin: 0;
+  justify-self: center;
+}
+
+.example .ticket {
+  margin-top: 0;
+}
+
+.example .timer-bar {
+  transform: scaleX(0.56);
+}
+
+.example-answers {
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.example-answers li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.example-answer {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1.1;
+}
+
+.example figcaption {
+  margin-top: 0.8rem;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+/* The doneness scale: five steps, like a steak cut open. */
+.doneness {
+  display: grid;
+  gap: 0;
+  max-width: 64rem;
+  margin-top: clamp(64px, 9vw, 104px);
+}
+
+.doneness-step {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.2rem 0.75rem;
+  padding-block: 0.65rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.doneness-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--tier);
+}
+
+.doneness-name {
+  font-weight: 600;
+}
+
+.doneness-points {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.doneness-note {
+  grid-column: 2 / -1;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+}
+
+@media (min-width: 760px) {
+  .doneness {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .doneness-step {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 0.1rem;
+    padding: 0 0.5rem 0.25rem 0;
+    border-bottom: 0;
+  }
+
+  .doneness-swatch {
+    grid-column: 1 / -1;
+    width: auto;
+    height: 12px;
+    margin-bottom: 0.6rem;
+    border-radius: 0;
+  }
+
+  .doneness-step:first-child .doneness-swatch {
+    border-radius: 6px 0 0 6px;
+  }
+
+  .doneness-step:last-child .doneness-swatch {
+    border-radius: 0 6px 6px 0;
+  }
+
+  .doneness-points {
+    color: var(--tier);
+  }
+
+  .doneness-note {
+    grid-column: 1 / -1;
+    margin-top: 0.2rem;
+  }
+}
+
+.rules {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 64rem;
+  margin-top: clamp(48px, 7vw, 80px);
+}
+
+@media (min-width: 760px) {
+  .rules {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+  }
+}
+
+.rules li {
+  padding-top: 1rem;
+  border-top: 1.5px solid var(--ink);
+}
+
+.rules h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.rules p {
+  margin-top: 0.4rem;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+/* Kitchen ranks, Dishwasher to Head Chef. */
+.ranks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  max-width: 64rem;
+  margin-top: 2rem;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+@media (min-width: 760px) {
+  .ranks {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.rank-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.7rem 0.8rem;
+  background: var(--paper);
+}
+
+.rank-step-name {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.rank-step-from {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.rank-step:last-child {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.rank-step:last-child .rank-step-from {
+  color: rgba(242, 242, 240, 0.7);
+}
+
+/* The Chef's Table: a dark pass at the end of the rules. */
+.chefs-table {
+  display: grid;
+  align-items: center;
+  gap: clamp(40px, 6vw, 72px);
+  margin-top: clamp(72px, 10vw, 120px);
+  padding: clamp(36px, 6vw, 72px) clamp(22px, 5vw, 64px);
+  background: var(--ink);
+  color: var(--paper);
+  scroll-margin-top: 16px;
+  --c: var(--paper);
+}
+
+@media (min-width: 900px) {
+  .chefs-table {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+}
+
+.chefs-table .eyebrow,
+.chefs-table .lede {
+  color: rgba(242, 242, 240, 0.72);
+}
+
+.chefs-table .eyebrow-dot,
+.chefs-table .period {
+  background: var(--paper);
+}
+
+.chefs-table .btn {
+  margin-top: 2rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.chefs-table .btn:hover {
+  background: #ffffff;
+}
+
+.chefs-table .btn:focus-visible,
+.chefs-table :focus-visible {
+  outline-color: var(--paper);
+}
+
+.chef-sample {
+  padding: 1.25rem 1.35rem 1.4rem;
+  background: #1f1f1e;
+}
+
+.chef-sample.frame::before {
+  inset: -10px;
+  --t: 3px;
+  --a: 22px;
+}
+
+.chef-sample-label {
+  color: rgba(242, 242, 240, 0.65);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.chef-sample .prompt {
+  margin-top: 0.7rem;
+}
+
+.chef-sample-said {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed rgba(242, 242, 240, 0.3);
+  color: rgba(242, 242, 240, 0.8);
+  font-size: 0.95rem;
+}
+
+.chef-sample-said strong {
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Badges -------------------------------------------------------------------------------- */
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  justify-self: start;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--tier);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.tier-points {
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A course: the scoreboard ------------------------------------------------------------------ */
+
+.hud {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hud-title {
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 1.7rem + 2.4vw, 3.1rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.hud-sub,
+.ticket-head,
+.mini-label,
+.recap-prompt,
+.stat dt {
+  color: var(--ink-2);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hud-sub {
+  margin-top: 0.5rem;
+}
+
+.hud-score {
+  flex: none;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+#hud-score {
+  display: block;
+  color: var(--ink);
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 1.25rem;
+}
+
+.courses .course {
+  padding-block: 0.3rem;
+  border-radius: 6px;
+  background: rgba(17, 17, 17, 0.06);
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.courses .course[class*="tier-"] {
+  background: var(--tier);
+  color: #fff;
+}
+
+/* The chef's course: a dashed outline until it's played. */
+.courses .is-chef:not([class*="tier-"]) {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--d-rare);
+  color: var(--d-rare);
+}
+
+.courses .is-current {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+/* A course: the order ticket, framed like the app's camera -------------------------------- */
+
+.ticket {
+  margin-top: 2.25rem;
+  padding: 1.15rem 1.25rem 0;
+  background: var(--card);
+}
+
+.ticket.frame::before {
+  inset: -10px;
+  --t: 3px;
+  --a: 22px;
+}
+
+.ticket-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ticket-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--d-rare);
+}
+
+.timer-num {
+  margin-left: auto;
+  color: var(--ink);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.ticket.is-low .timer-num {
+  color: var(--error);
+}
+
+.prompt {
+  margin-top: 0.85rem;
+  padding-bottom: 1.2rem;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 1.5rem + 2.2vw, 2.9rem);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.chef-bar {
+  margin-inline: -1.25rem;
+  padding: 0.85rem 1.25rem 1rem;
+  border-top: 1px dashed var(--line);
+  background: rgba(192, 48, 42, 0.06);
+}
+
+.chef-bar p:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+.chef-bar strong {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.chef-goal {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.timer {
+  height: 4px;
+  margin-inline: -1.25rem;
+  background: rgba(17, 17, 17, 0.08);
+}
+
+.timer-bar {
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left;
+}
+
+.ticket.is-low .timer-bar {
+  background: var(--error);
+}
+
+.ticket.is-done .timer,
+.ticket.is-done .timer-num {
+  visibility: hidden;
+}
+
+/* A course: the answer ----------------------------------------------------------------- */
+
+.answer {
+  margin-top: 2.25rem;
+}
+
+.feedback {
+  margin-top: 0.75rem;
+  color: var(--error);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.feedback:empty {
+  margin-top: 0;
+}
+
+.pass {
+  display: block;
+  margin-top: 1.1rem;
+  color: var(--ink-2);
+}
+
+/* Phones: keep the ticket and the answer box on screen together, keyboard open. */
+@media (max-width: 539px) {
+  .hud-title {
+    font-size: 2.1rem;
+  }
+
+  .hud-sub {
+    margin-top: 0.35rem;
+  }
+
+  #hud-score {
+    font-size: 1.7rem;
+  }
+
+  .courses {
+    gap: 4px;
+    margin-top: 0.9rem;
+  }
+
+  .ticket {
+    margin-top: 1.6rem;
+    padding: 0.95rem 1rem 0;
+  }
+
+  .prompt {
+    padding-bottom: 1rem;
+  }
+
+  .chef-bar,
+  .timer {
+    margin-inline: -1rem;
+  }
+
+  .chef-bar {
+    padding-inline: 1rem;
+  }
+
+  .answer,
+  .result {
+    margin-top: 1.6rem;
+  }
+
+  /* The landing page stacks the field on phones; here "Serve" is short enough to sit beside it. */
+  .answer .field {
+    flex-direction: row;
+  }
+
+  .answer .field input {
+    flex: 1;
+    height: 3.4rem;
+    padding: 0 0.9rem;
+  }
+
+  .answer .field .btn {
+    min-height: 0;
+    padding: 0 1.1rem;
+  }
+}
+
+/* A course: the result -------------------------------------------------------------------- */
+
+.result {
+  margin-top: 2.25rem;
+}
+
+.result .tier-badge {
+  padding: 0.42rem 0.9rem;
+  font-size: 0.92rem;
+}
+
+.result-answer {
+  margin-top: 1rem;
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 1.7rem + 3vw, 3.5rem);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.result-answer.is-burnt {
+  font-size: clamp(1.8rem, 1.4rem + 2vw, 2.4rem);
+}
+
+.result-note {
+  margin-top: 0.55rem;
+  color: var(--ink-2);
+}
+
+.chef-verdict {
+  margin-top: 1.1rem;
+  padding: 0.75rem 0.95rem;
+  border-left: 3px solid var(--ink-2);
+  background: var(--card);
+  font-weight: 600;
+}
+
+.chef-verdict.is-beat {
+  border-color: var(--d-rare);
+}
+
+.mini-label {
+  margin-top: 1.75rem;
+}
+
+.mini-label:empty {
+  display: none;
+}
+
+.alts {
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.alts:empty {
+  border-top: 0;
+}
+
+.alt {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.alt-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--tier);
+}
+
+.alt-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 500;
+}
+
+.alt-tier {
+  flex: none;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#next {
+  margin-top: 2rem;
+}
+
+@media (max-width: 539px) {
+  #next {
+    width: 100%;
+  }
+}
+
+/* The day's total --------------------------------------------------------------------------- */
+
+.end .display-2 {
+  outline: none;
+}
+
+.end-grid {
+  display: grid;
+  gap: 3rem;
+  margin-top: 2.25rem;
+}
+
+@media (min-width: 860px) {
+  .end-grid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: clamp(40px, 6vw, 88px);
+  }
+}
+
+.score-big {
+  font-size: clamp(4.2rem, 3rem + 5vw, 6.5rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-of {
+  margin-left: 0.12em;
+  color: var(--ink-2);
+  font-size: 0.3em;
+  letter-spacing: -0.01em;
+}
+
+.rank {
+  margin-top: 0.7rem;
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  font-style: italic;
+  line-height: 1.1;
+}
+
+/* The meter runs through the doneness colours: the further, the rarer. */
+.meter {
+  position: relative;
+  height: 6px;
+  margin-top: 1rem;
+  background: rgba(17, 17, 17, 0.1);
+  overflow: hidden;
+}
+
+.meter span {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--d-welldone), var(--d-medium) 30%, var(--d-rare) 55%, var(--d-blue) 80%, var(--d-tartare));
+  clip-path: inset(0 calc((1 - var(--score, 0)) * 100%) 0 0);
+}
+
+.rank-next {
+  margin-top: 0.6rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.beat-line {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.beat-line.is-won {
+  color: var(--d-rare);
+}
+
+.share {
+  margin-top: 2.25rem;
+}
+
+.share-msg {
+  margin-top: 0.6rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.share-msg:empty {
+  margin-top: 0;
+}
+
+.share-text {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  resize: none;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 2.25rem 0 0;
+  padding-top: 1rem;
+  border-top: 1.5px solid var(--ink);
+}
+
+.stat dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown {
+  margin-top: 1.25rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.end-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.end-actions .link-btn {
+  margin-top: 0;
+}
+
+.recap {
+  border-top: 1.5px solid var(--ink);
+}
+
+.recap-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.recap-what {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.recap-prompt {
+  letter-spacing: 0.08em;
+}
+
+.recap-answer {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.recap-row.tier-burnt .recap-answer {
+  color: var(--ink-2);
+}
+
+.game-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(72px, 10vw, 120px);
+  padding: clamp(44px, 7vw, 84px) clamp(24px, 6vw, 72px);
+  text-align: center;
+}
+
+.game-cta.frame::before {
+  inset: 0;
+  --t: 4px;
+  --a: clamp(28px, 4vw, 52px);
+}
+
+.game-cta-title {
+  max-width: 16em;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.game-cta .lede {
+  margin-inline: auto;
+}
+
+.game-cta .btn {
+  margin-top: 2rem;
+}
+
+/* Motion ---------------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro-copy > * {
+    animation: rise 0.8s var(--ease) both;
+  }
+
+  .intro-copy .display {
+    animation: focus-in 1.1s var(--ease) both 0.1s;
+  }
+
+  .intro-copy .display .period {
+    animation: pop 0.55s var(--ease) both 1s;
+  }
+
+  .intro-copy > :nth-child(3) { animation-delay: 0.25s; }
+  .intro-copy > :nth-child(n + 4) { animation-delay: 0.4s; }
+
+  .example .ticket {
+    animation: rise 1s var(--ease) both 0.35s;
+  }
+
+  .example .ticket::before {
+    animation: lock 0.8s var(--ease) both 0.9s;
+  }
+
+  .example-answers li,
+  .example figcaption {
+    animation: rise 0.7s var(--ease) both;
+  }
+
+  .example-answers li:nth-child(1) { animation-delay: 1.3s; }
+  .example-answers li:nth-child(2) { animation-delay: 1.65s; }
+  .example-answers li:nth-child(3) { animation-delay: 2s; }
+  .example figcaption { animation-delay: 2.3s; }
+
+  .doneness,
+  .rules {
+    animation: rise 0.9s var(--ease) both 0.5s;
+  }
+
+  .ticket.is-in::before {
+    animation: lock 0.8s var(--ease) both;
+  }
+
+  .ticket.is-in .prompt {
+    animation: focus-in 0.7s var(--ease) both 0.1s;
+  }
+
+  .field.is-wrong {
+    animation: shake 0.35s var(--ease);
+  }
+
+  .result.is-in .tier-badge {
+    animation: pop 0.5s var(--ease) both;
+  }
+
+  .result.is-in .result-answer {
+    animation: focus-in 0.8s var(--ease) both 0.1s;
+  }
+
+  .result.is-in .chef-verdict,
+  .result.is-in .mini-label,
+  .result.is-in .alts {
+    animation: rise 0.7s var(--ease) both 0.25s;
+  }
+
+  .meter span {
+    transition: clip-path 1.2s var(--ease) 0.2s;
+  }
+}
+
+@keyframes shake {
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}

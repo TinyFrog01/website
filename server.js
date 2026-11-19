@@ -63,6 +63,13 @@ async function serveStatic(req, res, pathname) {
   } catch {
     return send(res, 404, 'Not found');
   }
+  // A folder without its trailing slash (/rare): redirect like GitHub Pages
+  // does. The address is rebuilt from the folder's path, so it always stays on this site.
+  if (info.isDirectory() && !rel.endsWith('/')) {
+    const parts = path.relative(PUBLIC_DIR, file).split(path.sep).map(encodeURIComponent);
+    res.writeHead(301, { Location: `/${parts.join('/')}/` });
+    return res.end();
+  }
   if (!info.isFile()) return send(res, 404, 'Not found');
 
   const ext = path.extname(file).toLowerCase();
