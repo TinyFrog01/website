@@ -7,18 +7,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Cuisigo · Cook what you want with what you have</title>
   <meta name="description" content="Cuisigo turns what’s already in your fridge into recipes you can make tonight. Point. Scan. Cook. Launching January 2027.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://cuisigo.ca/">
   <meta name="theme-color" content="#f2f2f0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cuisigo">
+  <meta property="og:url" content="https://cuisigo.ca/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="fr_CA">
   <meta property="og:title" content="Cuisigo · Point. Scan. Cook.">
   <meta property="og:description" content="Snap your fridge, get recipes you can make tonight. Launching January 2027. · Photographie ton frigo et découvre quoi cuisiner ce soir. Lancement en janvier 2027.">
-  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image" content="https://cuisigo.ca/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tells Google the site's name is "Cuisigo" and which logo goes with it. Not shown on the page. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://cuisigo.ca/#website",
+        "name": "Cuisigo",
+        "url": "https://cuisigo.ca/",
+        "inLanguage": ["en-CA", "fr-CA"],
+        "publisher": { "@id": "https://cuisigo.ca/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://cuisigo.ca/#organization",
+        "name": "Cuisigo",
+        "url": "https://cuisigo.ca/",
+        "logo": "https://cuisigo.ca/apple-touch-icon.png",
+        "description": "Cuisigo turns what’s already in your fridge into recipes you can make tonight."
+      }
+    ]
+  }
+  </script>
 
   <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>

@@ -64,8 +64,23 @@ To change the script later, paste the new code, then click **Deploy → Manage d
 - Styles are in `public/styles.css`. App screenshots are in `public/screens/` (WebP, 400 px and 800 px wide).
 - Visitors get French if their browser prefers it and English otherwise. The EN/FR switch remembers their choice.
 
+## Search engines
+
+- `public/sitemap.xml` lists the page for Google and Bing, and `public/robots.txt` points to it. When you change the page's content, update `<lastmod>` in the sitemap to that day's date.
+- The page's `<head>` tells search engines that `https://cuisigo.ca/` is the one official address, that the site is called "Cuisigo", and which logo goes with it. None of this shows on the page.
+- If you add a page, add its full address to the sitemap as another `<url>` entry.
+
+### Set up Google Search Console (one time)
+
+1. Go to <https://search.google.com/search-console> and sign in.
+2. Click **Ajouter une propriété**, choose **Domaine**, enter `cuisigo.ca` and click **Continuer**.
+3. Google shows a TXT record. Add it to the domain's DNS settings at your domain registrar, then click **Valider**. DNS changes can take up to a day.
+4. In the left menu, open **Sitemaps**, enter `sitemap.xml` under **Ajouter un sitemap**, and click **Envoyer**.
+5. Open **Inspection de l'URL**, enter `https://cuisigo.ca/`, and click **Demander une indexation**.
+
+Do the same in Bing Webmaster Tools (<https://www.bing.com/webmasters>). It can import the site from Search Console.
+
 ## Before going live
 
 - **Contact info:** add a contact email or mailing address to the footer. Canada's anti-spam law (CASL) requires the sender's contact details where consent is collected.
 - **Privacy policy:** publish a short privacy policy and link it in the footer. Quebec's Law 25 requires one on any site that collects personal information. Say that sign-ups are stored with Google, whose servers may be outside Quebec.
-- **Link previews:** change `og:image` in `index.html` to the full URL (`https://cuisigo.ca/og-image.jpg`) so previews work on every platform.
