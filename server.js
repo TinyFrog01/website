@@ -64,6 +64,11 @@ async function serveStatic(req, res, pathname) {
   } catch {
     return send(res, 404, 'Not found');
   }
+  // A folder without its trailing slash (/rare) goes to /rare/, like on GitHub Pages.
+  if (info.isDirectory() && !rel.endsWith('/')) {
+    res.writeHead(301, { Location: `/${pathname.replace(/^\/+/, '')}/` });
+    return res.end();
+  }
   if (!info.isFile()) return send(res, 404, 'Not found');
 
   const ext = path.extname(file).toLowerCase();

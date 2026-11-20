@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"
+  data-en-title="RARE · The daily food game from Cuisigo"
+  data-fr-title="RARE · Le jeu culinaire quotidien de Cuisigo">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>RARE · The daily food game from Cuisigo</title>
+  <meta name="description" content="Seven food prompts a day, 25 seconds each. The rarer your right answer, the more it scores: from Well done to Tartare. A daily game from Cuisigo.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://cuisigo.ca/rare/">
+  <meta name="theme-color" content="#f2f2f0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cuisigo">
+  <meta property="og:url" content="https://cuisigo.ca/rare/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="fr_CA">
+  <meta property="og:title" content="RARE · The daily food game">
+  <meta property="og:description" content="Seven food prompts, 25 seconds each. The rarer your answer, the more it scores. · Sept questions culinaires, 25 secondes chacune. Plus ta réponse est rare, plus elle rapporte.">
+  <meta property="og:image" content="https://cuisigo.ca/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/rare/rare.css">
+  <script src="/lang.js"></script>
+  <script src="/rare/prompts.js" defer></script>
+  <script src="/rare/match.js" defer></script>
+  <script src="/rare/game.js" defer></script>
+  <script src="/rare/rare.js" defer></script>
+</head>
+<body class="rare-page">
+  <!-- Static copy exists twice, lang="en" and lang="fr"; the stylesheet hides the
+       inactive language. Everything that changes during a game is written by rare.js. -->
+  <header class="site-header wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
+      <span class="brand-name">Cuisigo</span>
+    </a>
+    <div class="header-end">
+      <a class="nav-game" href="/rare/" aria-current="page">Cuisigame</a>
+      <div class="lang-switch" role="group" aria-label="Language / Langue">
+        <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button type="button" data-set-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="rare-main wrap">
+    <noscript>
+      <p class="rare-noscript">
+        <span lang="en">RARE needs JavaScript. Turn it on to play.</span>
+        <span lang="fr">RARE a besoin de JavaScript. Active-le pour jouer.</span>
+      </p>
+    </noscript>
+
+    <!-- Home: today's two menus ------------------------------------------- -->
+    <section class="view" id="home" aria-labelledby="rare-title">
+      <p class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span lang="en">Daily food game</span><span lang="fr">Jeu culinaire quotidien</span>
+        <span aria-hidden="true">·</span>
+        <span data-puzzle></span>
+      </p>
+      <h1 class="rare-title" id="rare-title">Rare<span class="period">.</span></h1>
+      <p class="lede">
+        <span lang="en">Seven food prompts a day, 25 seconds each. Give a correct answer: the fewer people who would think of it, the more it scores.</span>
+        <span lang="fr">Sept questions culinaires par jour, 25 secondes chacune. Donne une bonne réponse&nbsp;: moins les gens y penseraient, plus elle rapporte.</span>
+      </p>
+
+      <div class="menus">
+        <article class="menu-card" data-card="menu">
+          <p class="eyebrow"><span lang="en">Today’s menu</span><span lang="fr">Menu du jour</span></p>
+          <h2 class="menu-name"><span lang="en">The daily seven</span><span lang="fr">Les sept du jour</span></h2>
+          <p class="menu-text">
+            <span lang="en">Everyday food: pasta shapes, cheeses, herbs, fruit and more.</span>
+            <span lang="fr">La bouffe de tous les jours&nbsp;: formes de pâtes, fromages, fines herbes, fruits et plus.</span>
+          </p>
+          <p class="menu-status" data-status></p>
+          <button class="btn" type="button" data-play="menu"></button>
+        </article>
+
+        <article class="menu-card menu-card-chef" data-card="chef">
+          <p class="eyebrow"><span lang="en">For chefs</span><span lang="fr">Pour les chefs</span></p>
+          <h2 class="menu-name"><span lang="en">Chef’s Table</span><span lang="fr">Table du chef</span></h2>
+          <p class="menu-text">
+            <span lang="en">A harder menu: knife cuts, French sauces, kitchen job titles and more. The last course is <strong>Beat the chef</strong>: you see the chef’s answer, and yours has to be rarer.</span>
+            <span lang="fr">Un menu plus corsé&nbsp;: coupes au couteau, sauces françaises, postes de brigade et plus. Le dernier plat, c’est <strong>Bats le chef</strong>&nbsp;: tu vois la réponse du chef, et la tienne doit être plus rare.</span>
+          </p>
+          <p class="menu-status" data-status></p>
+          <button class="btn" type="button" data-play="chef"></button>
+        </article>
+      </div>
+
+      <p class="next-menu" aria-live="off">
+        <span lang="en">New menus in</span><span lang="fr">Nouveaux menus dans</span>
+        <strong data-countdown></strong>
+      </p>
+
+      <section class="rare-section" aria-labelledby="scale-title">
+        <h2 class="rare-h2" id="scale-title"><span lang="en">How it scores</span><span lang="fr">Le pointage</span></h2>
+        <p class="rare-note">
+          <span lang="en">Every right answer is cooked to a doneness. The less common it is, the rarer it’s served. Run out of time and the course is burnt.</span>
+          <span lang="fr">Chaque bonne réponse a sa cuisson. Moins elle est courante, plus elle est servie saignante. Si le temps file, le plat est carbonisé.</span>
+        </p>
+        <ol class="scale" data-scale></ol>
+      </section>
+
+      <section class="rare-section" aria-labelledby="ranks-title">
+        <h2 class="rare-h2" id="ranks-title"><span lang="en">Kitchen ranks</span><span lang="fr">Rangs en cuisine</span></h2>
+        <p class="rare-note">
+          <span lang="en">Your total for the day, out of 700, earns you a place in the brigade.</span>
+          <span lang="fr">Ton total de la journée, sur 700, te donne ta place dans la brigade.</span>
+        </p>
+        <ol class="ranks" data-ranks></ol>
+      </section>
+
+      <section class="rare-section" aria-labelledby="stats-title" data-stats-section hidden>
+        <h2 class="rare-h2" id="stats-title"><span lang="en">Your kitchen</span><span lang="fr">Ta cuisine</span></h2>
+        <div class="stats" data-stats></div>
+        <p class="rare-note">
+          <span lang="en">Saved in this browser only.</span>
+          <span lang="fr">Enregistré dans ce navigateur seulement.</span>
+        </p>
+      </section>
+    </section>
+
+    <!-- A course ----------------------------------------------------------- -->
+    <section class="view play" id="play" hidden aria-labelledby="prompt">
+      <div class="play-top">
+        <p class="eyebrow" data-play-mode></p>
+        <p class="play-score" data-play-score></p>
+      </div>
+      <ol class="dots" data-dots aria-hidden="true"></ol>
+      <p class="play-count" data-play-count></p>
+
+      <div class="chef-callout" data-chef hidden></div>
+
+      <h2 class="prompt" id="prompt" tabindex="-1" data-prompt></h2>
+
+      <div class="course-live" data-live>
+        <div class="timer" data-timer>
+          <div class="timer-track"><span class="timer-fill" data-timer-fill></span></div>
+          <p class="timer-text"><span data-timer-text>25</span><span class="sr-only" data-timer-unit></span></p>
+        </div>
+        <form class="answer-form" data-answer-form autocomplete="off">
+          <div class="field">
+            <label class="sr-only" for="answer" data-answer-label></label>
+            <input id="answer" name="answer" type="text" maxlength="60"
+              autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send"
+              aria-describedby="answer-msg">
+            <button class="btn" type="submit" data-serve></button>
+          </div>
+          <p class="form-msg" id="answer-msg" data-feedback aria-live="polite"></p>
+        </form>
+        <p class="sr-only" data-timer-announce aria-live="polite"></p>
+      </div>
+
+      <div class="course-reveal" data-reveal hidden tabindex="-1"></div>
+    </section>
+
+    <!-- Results ------------------------------------------------------------ -->
+    <section class="view results" id="results" hidden tabindex="-1" aria-labelledby="results-title">
+      <div data-results></div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <a class="brand brand-sm" href="/">
+      <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
+      <span class="brand-name">Cuisigo</span>
+    </a>
+    <p>
+      <span lang="en">RARE is a daily game from Cuisigo. Your games are saved in this browser only.</span>
+      <span lang="fr">RARE est un jeu quotidien de Cuisigo. Tes parties sont enregistrées dans ce navigateur seulement.</span>
+    </p>
+    <p>© <span data-year>2026</span> Cuisigo</p>
+  </footer>
+</body>
+</html>

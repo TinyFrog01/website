@@ -1,0 +1,789 @@
+/* RARE, the daily food game. Builds on /styles.css: fonts, colours, header,
+   footer, buttons and the answer field all come from there. */
+
+:root {
+  /* Doneness, from charred to raw. Each passes 4.3:1 or more on the paper colour. */
+  --t0: #33312e; /* Burnt */
+  --t1: #75553f; /* Well done */
+  --t2: #a65e4c; /* Medium */
+  --t3: var(--rare); /* Rare */
+  --t4: #8a1f45; /* Blue */
+  --t5: #560a1d; /* Tartare */
+  --tier: var(--ink);
+}
+
+.tier-0 { --tier: var(--t0); }
+.tier-1 { --tier: var(--t1); }
+.tier-2 { --tier: var(--t2); }
+.tier-3 { --tier: var(--t3); }
+.tier-4 { --tier: var(--t4); }
+.tier-5 { --tier: var(--t5); }
+
+.rare-main {
+  padding-block: clamp(8px, 3vw, 32px) clamp(72px, 10vw, 120px);
+}
+
+.view {
+  max-width: 60rem;
+  margin-inline: auto;
+  outline: none;
+}
+
+.play,
+.results {
+  max-width: 40rem;
+}
+
+.rare-noscript {
+  padding: 1.25rem 1.4rem;
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+}
+
+.rare-title {
+  margin-top: 1rem;
+  font-size: clamp(4.75rem, 2.6rem + 11vw, 9.5rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 0.88;
+  outline: none;
+}
+
+/* A doneness label: colour dot + name. */
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tier-dot {
+  flex: none;
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  background: var(--tier);
+}
+
+/* Home: the two menus ------------------------------------------------------- */
+
+.menus {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+@media (min-width: 720px) {
+  .menus {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: clamp(1.4rem, 3vw, 1.9rem);
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+}
+
+.menu-name {
+  font-size: clamp(1.6rem, 1.3rem + 1vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.menu-text {
+  color: var(--ink-2);
+}
+
+.menu-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.menu-status {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.menu-card .btn {
+  margin-top: 0.4rem;
+  min-height: 3.25rem;
+}
+
+/* Chef's Table: the dark card. */
+.menu-card-chef {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.menu-card-chef .eyebrow,
+.menu-card-chef .menu-text {
+  color: rgba(242, 242, 240, 0.74);
+}
+
+.menu-card-chef .menu-text strong {
+  color: var(--paper);
+}
+
+.menu-card-chef .btn {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.menu-card-chef .btn:hover {
+  background: #dcdcd8;
+}
+
+.menu-card-chef :focus-visible {
+  outline-color: var(--paper);
+}
+
+.next-menu {
+  margin-top: 1.25rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.next-menu strong {
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.rare-section {
+  margin-top: clamp(56px, 8vw, 88px);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.rare-h2 {
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.rare-note {
+  max-width: 36rem;
+  margin-top: 0.5rem;
+  color: var(--ink-2);
+}
+
+/* The doneness scale. */
+.scale {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem 0.75rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .scale {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.scale-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.scale-swatch {
+  height: 10px;
+  margin-bottom: 0.45rem;
+  background: var(--tier);
+}
+
+.scale-name {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.scale-points {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Kitchen ranks. */
+.ranks {
+  margin-top: 1.25rem;
+  border-top: 1.5px solid var(--ink);
+  counter-reset: rank;
+}
+
+.rank {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.rank-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.rank-name::before {
+  counter-increment: rank;
+  content: counter(rank, decimal-leading-zero);
+  margin-right: 0.75rem;
+  color: var(--ink-2);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.rank-range {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Stats. */
+.stats {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.stats-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.stats-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 0;
+}
+
+.stat {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.stat dt {
+  color: var(--ink-2);
+  font-size: 0.78rem;
+}
+
+.stat dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A course ------------------------------------------------------------------ */
+
+.play-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.play-score {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 0.9rem;
+}
+
+.dot {
+  flex: 1;
+  height: 6px;
+  background: rgba(17, 17, 17, 0.12);
+}
+
+.dot.is-current:not(.is-served) {
+  background: var(--ink);
+}
+
+.dot.is-served {
+  background: var(--tier);
+}
+
+.play-count {
+  margin-top: 0.7rem;
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.chef-callout {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem 1.1rem;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.chef-callout .eyebrow {
+  color: rgba(242, 242, 240, 0.74);
+}
+
+.chef-callout .eyebrow-dot {
+  background: var(--t3);
+}
+
+.chef-line {
+  margin-top: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.chef-line strong {
+  font-weight: 600;
+}
+
+.chef-line .tier {
+  margin-left: 0.3em;
+}
+
+.chef-line .tier-dot {
+  box-shadow: 0 0 0 1.5px var(--paper);
+}
+
+.chef-goal {
+  margin-top: 0.25rem;
+  color: rgba(242, 242, 240, 0.74);
+  font-size: 0.9rem;
+}
+
+.prompt {
+  margin-top: 1.5rem;
+  font-size: clamp(2.1rem, 1.3rem + 3.4vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  text-wrap: balance;
+  outline: none;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.timer-track {
+  flex: 1;
+  height: 4px;
+  overflow: hidden;
+  background: rgba(17, 17, 17, 0.12);
+}
+
+.timer-fill {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left center;
+}
+
+.timer-text {
+  min-width: 2.2ch;
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.timer.is-low .timer-fill {
+  background: var(--error);
+}
+
+.timer.is-low .timer-text {
+  color: var(--error);
+}
+
+.answer-form {
+  margin-top: 1.4rem;
+}
+
+.field.is-wrong {
+  border-color: var(--error);
+}
+
+/* After a course ---------------------------------------------------------------- */
+
+.course-reveal {
+  margin-top: 1.75rem;
+  outline: none;
+}
+
+.reveal-tier {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+}
+
+.reveal-doneness {
+  color: var(--tier);
+  font-family: var(--serif);
+  font-size: clamp(3.4rem, 2rem + 6vw, 5.5rem);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+}
+
+.reveal-points {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.reveal-answer {
+  margin-top: 0.75rem;
+  color: var(--ink-2);
+  font-size: 1.1rem;
+}
+
+.reveal-answer strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.meter {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 1.4rem;
+}
+
+.meter-step {
+  padding-top: 0.45rem;
+  border-top: 6px solid var(--tier);
+  color: var(--ink-2);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  opacity: 0.3;
+}
+
+.meter-step.is-hit {
+  color: var(--ink);
+  opacity: 1;
+}
+
+.verdict {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 4px solid var(--ink);
+  background: var(--card);
+}
+
+.verdict-beat {
+  border-left-color: var(--t3);
+}
+
+.verdict-lost {
+  border-left-color: var(--ink-2);
+}
+
+.verdict-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.verdict p + p {
+  margin-top: 0.2rem;
+  color: var(--ink-2);
+}
+
+.verdict .tier {
+  margin-left: 0.3em;
+}
+
+.examples {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1.5rem 0 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.example dt {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.example dt .tier {
+  font-size: inherit;
+  letter-spacing: inherit;
+}
+
+.example dd {
+  margin: 0.25rem 0 0;
+}
+
+.course-reveal > .btn {
+  margin-top: 1.75rem;
+}
+
+/* Results ------------------------------------------------------------------- */
+
+.results-score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.9rem;
+  margin-top: 1rem;
+}
+
+.results-number {
+  font-size: clamp(5rem, 3rem + 10vw, 8.5rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 0.88;
+  font-variant-numeric: tabular-nums;
+}
+
+.results-outof {
+  color: var(--ink-2);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.results-rank {
+  margin-top: 1.75rem;
+}
+
+.results-rank-intro {
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.results-rank-name {
+  margin-top: 0.35rem;
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 1.7rem + 3.6vw, 3.8rem);
+  font-style: italic;
+  line-height: 1;
+}
+
+.results-rank-next {
+  margin-top: 0.5rem;
+  color: var(--ink-2);
+}
+
+.ladder {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 1.25rem;
+}
+
+.ladder-step {
+  padding-top: 0.4rem;
+  border-top: 4px solid rgba(17, 17, 17, 0.12);
+  color: var(--ink-2);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.ladder-step.is-reached {
+  border-top-color: var(--ink);
+}
+
+.ladder-step.is-current {
+  color: var(--ink);
+}
+
+.plates {
+  margin-top: 2rem;
+  border-top: 1.5px solid var(--ink);
+}
+
+.plate {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.plate-num {
+  color: var(--ink-2);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  line-height: 1;
+}
+
+.plate-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.plate-prompt {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.plate-answer {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.plate-answer.is-empty {
+  color: var(--ink-2);
+  font-weight: 400;
+}
+
+@media (max-width: 459px) {
+  .plate {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .plate .tier {
+    grid-column: 2;
+  }
+}
+
+.results-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 2rem;
+}
+
+.results-actions .btn {
+  min-height: 3.25rem;
+}
+
+.results-actions .link-btn {
+  margin-top: 0;
+}
+
+.btn-quiet {
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-quiet:hover {
+  background: var(--card);
+}
+
+.share-status {
+  margin-top: 0.75rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.share-status:empty {
+  margin-top: 0;
+}
+
+.share-box {
+  display: block;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  resize: none;
+}
+
+.results-next {
+  margin-top: 1.5rem;
+}
+
+/* Motion ---------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .view:not([hidden]) .rare-title {
+    animation: focus-in 1s var(--ease) both;
+  }
+
+  .view:not([hidden]) .menus {
+    animation: rise 0.8s var(--ease) both 0.15s;
+  }
+
+  .prompt {
+    animation: focus-in 0.6s var(--ease) both;
+  }
+
+  .course-reveal:not([hidden]) .reveal-doneness {
+    animation: focus-in 0.7s var(--ease) both;
+  }
+
+  .course-reveal:not([hidden]) .meter-step.is-hit {
+    animation: rise 0.6s var(--ease) both 0.15s;
+  }
+
+  .field.is-wrong {
+    animation: shake 0.35s ease;
+  }
+
+  .results:not([hidden]) .results-number {
+    animation: focus-in 0.9s var(--ease) both;
+  }
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}

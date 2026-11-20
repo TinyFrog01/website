@@ -64,6 +64,25 @@ To change the script later, paste the new code, then click **Deploy → Manage d
 - Styles are in `public/styles.css`. App screenshots are in `public/screens/` (WebP, 400 px and 800 px wide).
 - Visitors get French if their browser prefers it and English otherwise. The EN/FR switch remembers their choice.
 
+## RARE, the daily food game
+
+RARE lives at <https://cuisigo.ca/rare/> (`public/rare/`). Visitors reach it with the **Cuisigame** button in the header, beside EN/FR, on every page. Each day everyone gets the same two menus of seven prompts, with 25 seconds for each answer. The menus change at midnight Montréal time.
+
+- **Today's menu** asks everyday questions ("Name a pasta shape"). **Chef's Table** is harder: knife cuts, French sauces, kitchen job titles and more. Its last course is **Beat the chef**: the player sees the chef's answer (a Rare or Blue one) and has to serve a rarer one.
+- A right answer scores by how uncommon it is: Well done 10, Medium 25, Rare 50, Blue 75, Tartare 100. Running out of time scores 0 (Burnt). A wrong answer costs nothing but time: the player tries again until the clock runs out.
+- The day's total, out of 700, gives a kitchen rank: Dishwasher (0), Prep Cook (70), Line Cook (175), Station Chef (300), Sous Chef (425), Head Chef (550).
+- How common each answer is was set by hand in the prompt bank. It isn't measured from players' answers: the site has no server to collect them.
+- Games and stats are saved in the visitor's browser only. Nothing is sent anywhere.
+
+| File | What's in it |
+| --- | --- |
+| `prompts.js` | The prompts and every accepted answer with its tier. The comment at the top explains the format. |
+| `match.js` | How a typed answer is matched: case, accents, articles, plurals and small typos don't matter. |
+| `game.js` | The rules: daily schedule, points, ranks, saved progress. |
+| `rare.js`, `rare.css`, `index.html` | The page. |
+
+To add a prompt, copy an existing one in `prompts.js`, give it a new `id` and at least one answer at each tier from 1 to 5. More prompts mean longer before any repeats. Today 28 everyday prompts give a 4-day cycle and 21 Chef's Table prompts a 3-day cycle. Adding or removing prompts reshuffles the coming days, so make that change between days, not in the middle of one. Never rename or reuse an `id`.
+
 ## Search engines
 
 - `public/sitemap.xml` lists the page for Google and Bing, and `public/robots.txt` points to it. When you change the page's content, update `<lastmod>` in the sitemap to that day's date.

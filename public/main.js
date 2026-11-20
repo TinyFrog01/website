@@ -83,6 +83,10 @@
     }
     const title = root.getAttribute(`data-${next}-title`);
     if (title) document.title = title;
+    // The Cuisigame link opens the game in the language shown here.
+    document.querySelectorAll('.nav-game').forEach((link) => {
+      link.href = `/rare/?lang=${next}`;
+    });
     if (messageKey) showMessage(messageKey);
     if (remember) {
       try {
