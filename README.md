@@ -83,6 +83,12 @@ RARE lives at <https://cuisigo.ca/rare/> (`public/rare/`). Visitors reach it wit
 
 To add a prompt, copy an existing one in `prompts.js`, give it a new `id` and at least one answer at each tier from 1 to 5. More prompts mean longer before any repeats. Today 28 everyday prompts give a 4-day cycle and 21 Chef's Table prompts a 3-day cycle. Adding or removing prompts reshuffles the coming days, so make that change between days, not in the middle of one. Never rename or reuse an `id`.
 
+## Google Tag Manager
+
+Every page loads the Google Tag Manager container **GTM-M2ZFCNKG**. Google's snippet sits right after `<head>` in `public/index.html` and `public/rare/index.html`. If you add a page, paste the same snippet there too, once. Analytics and other tags are set up in Tag Manager itself, not in this repo.
+
+The local preview (`server.js`) has a strict security policy that only lets this exact snippet run. If Google's snippet ever changes, update `GTM_INLINE_HASH` in `server.js`: the browser console prints the new value. The live site on GitHub Pages doesn't use that policy.
+
 ## Search engines
 
 - `public/sitemap.xml` lists the page for Google and Bing, and `public/robots.txt` points to it. When you change the page's content, update `<lastmod>` in the sitemap to that day's date.
@@ -102,4 +108,5 @@ Do the same in Bing Webmaster Tools (<https://www.bing.com/webmasters>). It can 
 ## Before going live
 
 - **Contact info:** add a contact email or mailing address to the footer. Canada's anti-spam law (CASL) requires the sender's contact details where consent is collected.
+- **Analytics and cookies:** Google Tag Manager is on every page. If its tags (Google Analytics, for example) set cookies or track visitors, say so in the privacy policy. Quebec's Law 25 also requires tracking that can identify or profile people to be off until visitors agree. A consent banner with Google's Consent Mode does that.
 - **Privacy policy:** publish a short privacy policy and link it in the footer. Quebec's Law 25 requires one on any site that collects personal information. Say that sign-ups are stored with Google, whose servers may be outside Quebec.

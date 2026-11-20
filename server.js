@@ -33,9 +33,17 @@ const TYPES = {
 // and then redirects to script.googleusercontent.com.
 const SIGNUP_HOSTS = 'https://script.google.com https://script.googleusercontent.com';
 
+// Google Tag Manager, in each page's <head>, loads from googletagmanager.com and
+// reports to Google Analytics. The inline part of Google's snippet is allowed by
+// its hash: if that snippet changes, update the hash (the browser console shows the new one).
+const ANALYTICS_HOSTS = 'https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com';
+const GTM_INLINE_HASH = "'sha256-ncN3GiMXXUNS5+4lYiHaTmEmdKZkqNRyoFhUZpR8Bco='";
+
 const SECURITY_HEADERS = {
   'Content-Security-Policy':
-    `default-src 'self'; img-src 'self' data:; connect-src 'self' ${SIGNUP_HOSTS}; form-action 'self' ${SIGNUP_HOSTS}; ` +
+    `default-src 'self'; script-src 'self' https://www.googletagmanager.com ${GTM_INLINE_HASH}; ` +
+    `img-src 'self' data: ${ANALYTICS_HOSTS}; connect-src 'self' ${SIGNUP_HOSTS} ${ANALYTICS_HOSTS}; ` +
+    `form-action 'self' ${SIGNUP_HOSTS}; ` +
     "object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
