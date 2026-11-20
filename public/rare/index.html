@@ -10,6 +10,9 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   </script>
+  <!-- Google AdSense (ca-pub-8693995366671646): Google checks for it in <head> when reviewing the site. -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8693995366671646"
+     crossorigin="anonymous"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>RARE · The daily food game from Cuisigo</title>
@@ -41,6 +44,7 @@
   <script src="/rare/match.js" defer></script>
   <script src="/rare/game.js" defer></script>
   <script src="/rare/rare.js" defer></script>
+  <script src="/rare/ads.js" defer></script>
 </head>
 <body class="rare-page">
   <!-- Static copy exists twice, lang="en" and lang="fr"; the stylesheet hides the
@@ -56,6 +60,13 @@
       <button type="button" data-set-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
     </div>
   </header>
+
+  <!-- Ads sit in a column on each side of the game, on wide screens only (rare.css).
+       ads.js puts the AdSense units in them. -->
+  <div class="rare-layout">
+  <div class="ad-rail" data-ad-rail>
+    <p class="ad-label"><span lang="en">Advertisement</span><span lang="fr">Publicité</span></p>
+  </div>
 
   <main class="rare-main wrap">
     <noscript>
@@ -175,6 +186,11 @@
       <div data-results></div>
     </section>
   </main>
+
+  <div class="ad-rail" data-ad-rail>
+    <p class="ad-label"><span lang="en">Advertisement</span><span lang="fr">Publicité</span></p>
+  </div>
+  </div>
 
   <footer class="site-footer wrap">
     <a class="brand brand-sm" href="/">

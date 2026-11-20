@@ -29,6 +29,48 @@
   outline: none;
 }
 
+/* Ads: a 160 × 600 column on each side of the game, only on screens wide enough
+   to keep them well away from the answer box (180px or more), so nobody taps an
+   ad by accident. On smaller screens the page is unchanged. */
+.ad-rail {
+  display: none;
+}
+
+@media (min-width: 1360px) {
+  .rare-layout {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr) 160px;
+    padding-inline: 16px;
+  }
+
+  .ad-rail {
+    display: block;
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    width: 160px;
+    margin-top: 32px;
+  }
+}
+
+.ad-label {
+  margin-bottom: 0.45rem;
+  color: var(--ink-2);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* No label over an empty column, and no gap where Google had no ad to show. */
+.ad-rail:not(:has(ins[data-ad-status="filled"])) .ad-label {
+  display: none;
+}
+
+.ad-rail ins[data-ad-status="unfilled"] {
+  display: none !important;
+}
+
 .play,
 .results {
   max-width: 40rem;

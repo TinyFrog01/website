@@ -39,11 +39,18 @@ const SIGNUP_HOSTS = 'https://script.google.com https://script.googleusercontent
 const ANALYTICS_HOSTS = 'https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com';
 const GTM_INLINE_HASH = "'sha256-ncN3GiMXXUNS5+4lYiHaTmEmdKZkqNRyoFhUZpR8Bco='";
 
+// Google AdSense loads its script from googlesyndication.com, shows ads in frames
+// from Google's ad servers, and those ads carry images from anywhere.
+// (Google doesn't fill ads on localhost, so the ad columns stay empty here.)
+const ADS_HOSTS =
+  'https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net ' +
+  'https://*.google.com https://*.gstatic.com https://*.adtrafficquality.google';
+
 const SECURITY_HEADERS = {
   'Content-Security-Policy':
-    `default-src 'self'; script-src 'self' https://www.googletagmanager.com ${GTM_INLINE_HASH}; ` +
-    `img-src 'self' data: ${ANALYTICS_HOSTS}; connect-src 'self' ${SIGNUP_HOSTS} ${ANALYTICS_HOSTS}; ` +
-    `form-action 'self' ${SIGNUP_HOSTS}; ` +
+    `default-src 'self'; script-src 'self' https://www.googletagmanager.com ${GTM_INLINE_HASH} ${ADS_HOSTS}; ` +
+    `img-src 'self' data: https:; connect-src 'self' ${SIGNUP_HOSTS} ${ANALYTICS_HOSTS} ${ADS_HOSTS}; ` +
+    `frame-src ${ADS_HOSTS}; form-action 'self' ${SIGNUP_HOSTS}; ` +
     "object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'strict-origin-when-cross-origin',

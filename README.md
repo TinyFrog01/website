@@ -89,6 +89,13 @@ Every page loads the Google Tag Manager container **GTM-M2ZFCNKG**. Google's sni
 
 The local preview (`server.js`) has a strict security policy that only lets this exact snippet run. If Google's snippet ever changes, update `GTM_INLINE_HASH` in `server.js`: the browser console prints the new value. The live site on GitHub Pages doesn't use that policy.
 
+## Google AdSense (ads)
+
+- The AdSense script for **ca-pub-8693995366671646** is in the `<head>` of `public/index.html` and `public/rare/index.html`, right after Tag Manager. Google looks for it on the homepage when it reviews the site, so keep it there. `public/ads.txt` tells ad buyers that this account may sell ads on cuisigo.ca.
+- **Ads beside the game:** `public/rare/` has a 160 × 600 ad column on each side, shown only on screens 1360px wide or more. On smaller screens the page looks the same as without ads. The columns stay empty until you put a display ad unit's ID in `SLOT` at the top of `public/rare/ads.js` (AdSense → Ads → By ad unit → Display ads; one unit is used for both sides).
+- **Auto ads:** in AdSense, Auto ads can also place ads anywhere on both pages, including pop-up ones between pages and a bar at the bottom of the screen. To keep ads only beside the game, turn Auto ads off for cuisigo.ca (AdSense → Ads → By site).
+- Google doesn't show ads on `localhost`, so the columns are empty in the local preview.
+
 ## Search engines
 
 - `public/sitemap.xml` lists the page for Google and Bing, and `public/robots.txt` points to it. When you change the page's content, update `<lastmod>` in the sitemap to that day's date.
@@ -108,5 +115,5 @@ Do the same in Bing Webmaster Tools (<https://www.bing.com/webmasters>). It can 
 ## Before going live
 
 - **Contact info:** add a contact email or mailing address to the footer. Canada's anti-spam law (CASL) requires the sender's contact details where consent is collected.
-- **Analytics and cookies:** Google Tag Manager is on every page. If its tags (Google Analytics, for example) set cookies or track visitors, say so in the privacy policy. Quebec's Law 25 also requires tracking that can identify or profile people to be off until visitors agree. A consent banner with Google's Consent Mode does that.
+- **Analytics, ads and cookies:** Google Tag Manager and Google AdSense are on every page. AdSense requires a privacy policy that says Google and its partners use cookies to show ads. If Tag Manager's tags (Google Analytics, for example) set cookies or track visitors, say that too. Quebec's Law 25 also requires tracking that can identify or profile people to be off until visitors agree. A consent banner with Google's Consent Mode does that.
 - **Privacy policy:** publish a short privacy policy and link it in the footer. Quebec's Law 25 requires one on any site that collects personal information. Say that sign-ups are stored with Google, whose servers may be outside Quebec.
