@@ -27,7 +27,7 @@
 
   <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=3">
   <link rel="stylesheet" href="/rare/rare.css">
   <script src="/lang.js"></script>
   <script src="/rare/prompts.js" defer></script>
@@ -43,12 +43,10 @@
       <svg class="mark" viewBox="0 0 19 19" aria-hidden="true" focusable="false"><path d="M0 6V0h6v2H2v4zM13 0h6v6h-2V2h-4zM0 13h2v4h4v2H0zM17 13h2v6h-6v-2h4z"/><circle cx="9.5" cy="9.5" r="3"/></svg>
       <span class="brand-name">Cuisigo</span>
     </a>
-    <div class="header-end">
-      <a class="nav-game" href="/rare/" aria-current="page">Cuisigame</a>
-      <div class="lang-switch" role="group" aria-label="Language / Langue">
-        <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
-        <button type="button" data-set-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
-      </div>
+    <a class="game-link" href="/rare/" aria-current="page"><span class="game-link-verb"><span lang="en">Play </span><span lang="fr">Joue à </span></span>Rare</a>
+    <div class="lang-switch" role="group" aria-label="Language / Langue">
+      <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+      <button type="button" data-set-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
     </div>
   </header>
 

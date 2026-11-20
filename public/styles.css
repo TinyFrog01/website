@@ -23,7 +23,7 @@
   --ink-2: #5c5c58;
   --line: rgba(17, 17, 17, 0.14);
   --error: #b3261e;
-  --rare: #bf3a33; /* RARE's red, used for the Cuisigame link */
+  --rare: #bf3a33; /* RARE's red (the game's Rare doneness) */
 
   --sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
@@ -200,45 +200,45 @@ html[lang="fr"] body [lang="en"] {
   letter-spacing: -0.025em;
 }
 
-.header-end {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.5rem, 2.5vw, 1.25rem);
-}
-
-/* Link to the daily food game, beside the language switch. */
-.nav-game {
+/* "Play Rare": the link to the daily food game, in the same lettering as EN / FR beside it. */
+.game-link {
   display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 0.7rem;
-  border: 1.5px solid var(--ink);
+  align-items: baseline;
+  gap: 0.35em;
+  margin-left: auto;
+  padding: 0.55rem 0.6rem;
   color: var(--ink);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.nav-game::before {
-  content: "";
-  flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--rare);
+.game-link:hover {
+  color: var(--ink-2);
 }
 
-.nav-game:hover,
-.nav-game[aria-current="page"] {
-  background: var(--ink);
-  color: var(--paper);
+/* Phones: a little less space between the header items. */
+@media (max-width: 479px) {
+  .site-header {
+    gap: 0.5rem;
+  }
+
+  .game-link,
+  .site-header .lang-switch button {
+    padding-inline: 0.45rem;
+  }
+
+  .game-link {
+    letter-spacing: 0.07em;
+  }
 }
 
-/* Small phones: logo, Cuisigame and EN/FR still fit on one line. */
+/* Small phones: smaller logo, and the link reads just "Rare"
+   (screen readers still hear "Play Rare" / "Joue à Rare"). */
 @media (max-width: 379px) {
   .site-header .brand {
     gap: 0.5rem;
@@ -253,28 +253,7 @@ html[lang="fr"] body [lang="en"] {
     font-size: 1.12rem;
   }
 
-  .header-end {
-    gap: 0.35rem;
-  }
-
-  .nav-game {
-    padding: 0.45rem 0.5rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
-  }
-
-  .nav-game::before {
-    display: none;
-  }
-
-  .lang-switch button {
-    padding-inline: 0.45rem;
-  }
-}
-
-/* The narrowest phones: the logo alone stands for the name (still read aloud). */
-@media (max-width: 339px) {
-  .site-header .brand-name {
+  .game-link-verb {
     position: absolute;
     width: 1px;
     height: 1px;

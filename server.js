@@ -75,7 +75,8 @@ async function serveStatic(req, res, pathname) {
   const longCache = ['.woff2', '.webp', '.png', '.jpg', '.svg', '.ico'].includes(ext);
   const headers = {
     'Content-Type': TYPES[ext] || 'application/octet-stream',
-    'Cache-Control': ext === '.html' ? 'no-cache' : longCache ? 'public, max-age=604800' : 'public, max-age=3600',
+    // Pages, styles and scripts are re-checked on every load, so edits show up right away.
+    'Cache-Control': longCache ? 'public, max-age=604800' : 'no-cache',
     'Last-Modified': info.mtime.toUTCString(),
   };
 

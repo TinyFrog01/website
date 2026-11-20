@@ -61,12 +61,12 @@ To change the script later, paste the new code, then click **Deploy → Manage d
 - Copy is in `public/index.html`. Each text appears twice, once with `lang="en"` and once with `lang="fr"`, side by side. The French uses *tu*, like the app.
 - Form messages are in `public/main.js` (`MESSAGES`). The confirmation email's wording is in `google-apps-script/Code.gs` (`EMAIL_TEXT`).
 - To keep waits short, "Check your inbox" shows immediately for the big email providers listed in `KNOWN_PROVIDERS` (`public/main.js`), and "You're on the list" shows as soon as a confirmation link opens. The script finishes the work in the background. Only add providers whose addresses the script always accepts.
-- Styles are in `public/styles.css`. App screenshots are in `public/screens/` (WebP, 400 px and 800 px wide).
+- Styles are in `public/styles.css`. The pages load it as `/styles.css?v=3` (and `/main.js?v=2`): when you change either file, raise that number in the HTML, so visitors get the new file with the new page instead of an old copy their browser kept. App screenshots are in `public/screens/` (WebP, 400 px and 800 px wide).
 - Visitors get French if their browser prefers it and English otherwise. The EN/FR switch remembers their choice.
 
 ## RARE, the daily food game
 
-RARE lives at <https://cuisigo.ca/rare/> (`public/rare/`). Visitors reach it with the **Cuisigame** button in the header, beside EN/FR, on every page. Each day everyone gets the same two menus of seven prompts, with 25 seconds for each answer. The menus change at midnight Montréal time.
+RARE lives at <https://cuisigo.ca/rare/> (`public/rare/`). Visitors reach it with the **Play Rare** link in the header, left of EN/FR, and from the homepage footer. Each day everyone gets the same two menus of seven prompts, with 25 seconds for each answer. The menus change at midnight Montréal time.
 
 - **Today's menu** asks everyday questions ("Name a pasta shape"). **Chef's Table** is harder: knife cuts, French sauces, kitchen job titles and more. Its last course is **Beat the chef**: the player sees the chef's answer (a Rare or Blue one) and has to serve a rarer one.
 - A right answer scores by how uncommon it is: Well done 10, Medium 25, Rare 50, Blue 75, Tartare 100. Running out of time scores 0 (Burnt). A wrong answer costs nothing but time: the player tries again until the clock runs out.
